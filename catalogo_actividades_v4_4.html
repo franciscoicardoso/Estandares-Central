@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Catálogo de Actividades v4.4 — Central de Verduras y Hortalizas</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+:root {
+  --gris-bg:#f3f4f6; --gris-text:#1a1d23; --gris-med:#6b7280; --borde:#e2e5ea;
+  --cobro:#1b5e8c;   --cobro-bg:#e8f2fa;   --cobro-bd:#aacde8;
+  --scaja:#6d4c9e;   --scaja-bg:#f0ebfb;   --scaja-bd:#cbb8ea;
+  --venta:#1e7c4a;   --venta-bg:#e7f6ed;   --venta-bd:#a3d9b8;
+  --mer:#8b5e1a;     --mer-bg:#fdf3e3;     --mer-bd:#e0c080;
+  --sop:#455a64;     --sop-bg:#eceff1;     --sop-bd:#b0bec5;
+  --pago:#7b3f00;    --pago-bg:#fdf0e6;    --pago-bd:#e8b87a;
+  --com:#4a6741;     --com-bg:#edf4ec;     --com-bd:#9fc49a;
+  --sup:#2c3e6b;     --sup-bg:#e8ecf7;     --sup-bd:#9aaad6;
+  --adm:#5c4a7a;     --adm-bg:#f0ecf9;     --adm-bd:#c0aae0;
+  --aud:#8c4a1e;     --aud-bg:#fdf0e8;     --aud-bd:#e8b090;
+  --gold:#f59e0b; --gold-bg:#fffbeb; --gold-bd:#fcd34d;
+  --tag-a-bg:#dbeafe; --tag-a-txt:#1e40af;
+  --tag-t-bg:#fef9c3; --tag-t-txt:#854d0e;
+  --tag-r-bg:#fce7f3; --tag-r-txt:#831843;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'IBM Plex Sans',sans-serif;background:var(--gris-bg);color:var(--gris-text);font-size:13px;line-height:1.55;}
+
+/* HEADER */
+.hdr{background:#1a2535;color:#fff;padding:24px 36px 18px;display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:10px;border-bottom:3px solid #e76f51;}
+.hdr h1{font-size:19px;font-weight:700;}
+.hdr .sub{font-size:11.5px;font-weight:300;opacity:.7;margin-top:3px;}
+.hdr .meta{font-family:'IBM Plex Mono',monospace;font-size:10.5px;opacity:.6;text-align:right;line-height:1.9;}
+
+/* TABS NAV */
+.tabs{background:#fff;border-bottom:2px solid var(--borde);display:flex;gap:0;flex-wrap:wrap;}
+.tab-btn{padding:11px 22px;font-size:12px;font-weight:600;color:var(--gris-med);cursor:pointer;border:none;background:none;border-bottom:3px solid transparent;margin-bottom:-2px;transition:all .15s;white-space:nowrap;}
+.tab-btn:hover{color:var(--gris-text);background:#f9fafb;}
+.tab-btn.active{color:#1a2535;border-bottom-color:#e76f51;background:#fff;}
+
+/* LEYENDA */
+.leyenda{background:#f9fafb;border-bottom:1px solid var(--borde);padding:8px 36px;display:flex;gap:18px;flex-wrap:wrap;align-items:center;}
+.leyenda-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--gris-med);}
+.badge{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:4px;font-size:10.5px;font-weight:600;font-family:'IBM Plex Mono',monospace;}
+.badge-a{background:var(--tag-a-bg);color:var(--tag-a-txt);border:1px solid #93c5fd;}
+.badge-t{background:var(--tag-t-bg);color:var(--tag-t-txt);border:1px solid #fde047;}
+.badge-r{background:var(--tag-r-bg);color:var(--tag-r-txt);border:1px solid #f9a8d4;}
+.badge-star{background:var(--gold-bg);color:#92400e;border:1px solid var(--gold-bd);}
+.pt{display:inline-block;padding:1px 7px;border-radius:10px;font-size:10px;font-weight:600;font-family:'IBM Plex Mono',monospace;}
+.pt-caj{background:#dbeafe;color:#1e40af;}
+.pt-cho{background:#dcfce7;color:#14532d;}
+.pt-pis{background:#fce7f3;color:#831843;}
+.pt-all{background:#f3f4f6;color:#374151;}
+.pt-sup{background:#e8ecf7;color:#2c3e6b;}
+.pt-ger{background:#f0ecf9;color:#5c4a7a;}
+
+/* PANELS */
+.main{max-width:1140px;margin:0 auto;padding:24px 18px 60px;}
+.panel{display:none;}
+.panel.active{display:block;}
+
+/* PROCESO SECTION */
+.proc-sec{margin-bottom:28px;}
+.proc-hdr{display:flex;align-items:center;gap:10px;padding:10px 18px;border-radius:8px 8px 0 0;color:#fff;cursor:pointer;user-select:none;}
+.proc-hdr:hover{filter:brightness(1.1);}
+.proc-hdr.cobro{background:var(--cobro);}
+.proc-hdr.scaja{background:var(--scaja);}
+.proc-hdr.venta{background:var(--venta);}
+.proc-hdr.mer  {background:var(--mer);}
+.proc-hdr.sop  {background:var(--sop);}
+.proc-hdr.pago {background:var(--pago);}
+.proc-hdr.com  {background:var(--com);}
+.proc-hdr.sup  {background:var(--sup);}
+.proc-hdr.adm  {background:var(--adm);}
+.proc-hdr.aud  {background:var(--aud);}
+.proc-nombre{font-size:13.5px;font-weight:700;}
+.proc-desc{font-size:11px;opacity:.8;margin-left:2px;}
+.proc-cnt{margin-left:auto;font-family:'IBM Plex Mono',monospace;font-size:10.5px;opacity:.7;}
+.proc-toggle{margin-left:8px;font-size:11px;opacity:.75;transition:transform .2s;}
+.proc-hdr.collapsed .proc-toggle{transform:rotate(-90deg);}
+
+/* TABLE */
+.tbl-wrap{border:1px solid var(--borde);border-top:none;border-radius:0 0 8px 8px;overflow:hidden;background:#fff;}
+.tbl-wrap.hidden{display:none;}
+table{width:100%;border-collapse:collapse;}
+thead th{background:#f8f9fb;padding:7px 12px;text-align:left;font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--gris-med);border-bottom:1px solid var(--borde);}
+tbody tr{border-bottom:1px solid var(--borde);}
+tbody tr:last-child{border-bottom:none;}
+tbody tr:hover{background:#fafbfc;}
+tbody tr.prioridad-1{background:#fffbeb;}
+td{padding:8px 12px;vertical-align:top;}
+td.num{font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--gris-med);width:55px;padding-top:10px;white-space:nowrap;vertical-align:middle;}
+td.nom{font-weight:600;font-size:12.5px;width:220px;}
+td.pue{width:90px;padding-top:9px;}
+td.due{font-size:11px;color:var(--gris-med);width:130px;}
+td.ori{font-size:10.5px;color:#9ca3af;font-style:italic;width:155px;}
+td.desc{font-size:12px;color:#374151;}
+td.tipo{width:120px;padding-top:8px;}
+td.voto{width:70px;text-align:center;padding-top:9px;}
+
+.nota-sub{display:block;margin-top:4px;font-size:10.5px;color:var(--tag-t-txt);background:var(--tag-t-bg);border:1px solid #fde047;border-radius:3px;padding:2px 6px;}
+.nota-nueva{display:block;margin-top:4px;font-size:10.5px;color:#065f46;background:#d1fae5;border:1px solid #6ee7b7;border-radius:3px;padding:2px 6px;}
+.nota-migra{display:block;margin-top:4px;font-size:10.5px;color:#1e40af;background:#dbeafe;border:1px solid #93c5fd;border-radius:3px;padding:2px 6px;}
+.nota-res{display:block;margin-top:4px;font-size:10.5px;color:#831843;background:#fce7f3;border:1px solid #f9a8d4;border-radius:3px;padding:2px 6px;}
+
+.ori-row td{background:#f8f9fb;font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--gris-med);padding:4px 12px;border-bottom:1px solid var(--borde);}
+
+/* VOTOS */
+.votos{display:flex;align-items:center;gap:3px;justify-content:center;}
+.estrella{color:#f59e0b;font-size:13px;}
+.vnum{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--gris-med);}
+.prioridad-1 .vnum{color:#92400e;font-weight:700;}
+
+/* NOTA DE CULTURA */
+.cultura-box{margin:0 0 16px 0;padding:14px 18px;background:#f0f4ff;border:1px solid #c7d4f0;border-radius:8px;font-size:11.5px;color:#2c3e6b;line-height:1.8;}
+.cultura-box strong{color:#1a2535;}
+
+/* AUD RESERVADO */
+.aud-reservado{margin:0 0 16px 0;padding:14px 18px;background:var(--aud-bg);border:1px solid var(--aud-bd);border-radius:8px;font-size:11.5px;color:var(--aud);line-height:1.8;}
+
+/* MATRIZ */
+.matriz-wrap{overflow-x:auto;}
+.matriz-wrap table{min-width:800px;}
+.mtz th{background:#1a2535;color:#fff;padding:8px 10px;font-size:10px;text-align:center;font-weight:600;letter-spacing:.5px;white-space:nowrap;}
+.mtz th.proc-col{text-align:left;min-width:220px;}
+.mtz td{padding:7px 10px;text-align:center;font-size:11.5px;border-bottom:1px solid var(--borde);}
+.mtz td.act-nom{text-align:left;font-size:11.5px;padding-left:14px;}
+.mtz td.cod{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--gris-med);width:60px;}
+.mtz tr.proc-grp td{background:#f1f5f9;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--gris-med);padding:5px 12px;}
+.mtz tr:hover td{background:#fafbfc;}
+.mtz tr.top td{background:#fffbeb;}
+.cell-p{font-size:16px;}
+.cell-s{font-size:12px;color:var(--gris-med);}
+.cell-n{color:#e5e7eb;}
+
+/* RESUMEN */
+.res-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:20px;}
+.rc{border-radius:6px;padding:14px;text-align:center;border:1px solid var(--borde);background:#fff;}
+.rc .n{font-size:26px;font-weight:700;font-family:'IBM Plex Mono',monospace;}
+.rc .l{font-size:10.5px;color:var(--gris-med);margin-top:2px;}
+.prioridades-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;}
+.prio-card{background:#fff;border:1px solid var(--borde);border-radius:8px;overflow:hidden;}
+.prio-card-hdr{padding:10px 16px;font-size:12px;font-weight:700;color:#fff;}
+.prio-item{display:flex;align-items:center;gap:10px;padding:8px 16px;border-bottom:1px solid #f1f3f5;font-size:12px;}
+.prio-item:last-child{border-bottom:none;}
+.prio-rank{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--gris-med);width:18px;}
+.prio-stars{color:#f59e0b;font-size:11px;white-space:nowrap;}
+
+/* ESTÁNDAR LINKS */
+.std-link{display:inline-flex;flex-direction:column;align-items:center;gap:2px;text-decoration:none;}
+.std-code{font-family:'IBM Plex Mono',monospace;font-size:10.5px;font-weight:700;padding:3px 7px;border-radius:4px 4px 0 0;width:100%;text-align:center;}
+.std-badge{font-size:9px;font-weight:700;padding:2px 6px;border-radius:0 0 4px 4px;width:100%;text-align:center;letter-spacing:.4px;}
+.std-disponible .std-code{background:#d1fae5;color:#065f46;border:1px solid #6ee7b7;border-bottom:none;}
+.std-disponible .std-badge{background:#6ee7b7;color:#065f46;}
+.std-disponible:hover .std-code{background:#a7f3d0;}
+.std-pendiente .std-code{background:#f3f4f6;color:#9ca3af;border:1px solid #e5e7eb;border-bottom:none;}
+.std-pendiente .std-badge{background:#e5e7eb;color:#9ca3af;}
+
+/* HISTORIAL */
+.hist-table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--borde);border-radius:8px;overflow:hidden;}
+.hist-table th{background:#1a2535;color:#fff;font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;padding:9px 14px;text-align:left;}
+.hist-table td{font-size:12px;padding:10px 14px;border-bottom:1px solid var(--borde);vertical-align:top;line-height:1.6;}
+.hist-table tr:last-child td{border-bottom:none;}
+.hist-table tr:hover td{background:#fafbfc;}
+.ver-pill{display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:10.5px;font-weight:700;padding:2px 10px;border-radius:10px;}
+.ver-pill.mayor{background:#1a2535;color:#fff;}
+.ver-pill.menor{background:#f1f5f9;color:#334155;border:1px solid #cbd5e1;}
+.hist-tipo{display:inline-block;font-size:10px;font-weight:700;padding:1px 8px;border-radius:3px;text-transform:uppercase;letter-spacing:.5px;}
+.hist-tipo.menor{background:#dbeafe;color:#1e40af;}
+.hist-tipo.mayor{background:#fee2e2;color:#991b1b;}
+.hist-section-hdr{background:#1a2535;color:#fff;padding:10px 18px;font-size:12px;font-weight:700;border-radius:8px 8px 0 0;margin-top:24px;}
+.hist-section-hdr:first-child{margin-top:0;}
+
+.nota-pie{margin-top:18px;padding-top:14px;border-top:1px solid var(--borde);font-size:11px;color:var(--gris-med);line-height:1.8;}
+.nota-pie strong{color:var(--gris-text);}
+
+@media(max-width:720px){
+  .hdr{padding:16px 18px 12px;}
+  .leyenda{padding:8px 18px;}
+  .main{padding:16px 10px 40px;}
+}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div>
+    <div class="sub">Central de Verduras y Hortalizas</div>
+    <h1>Catálogo de Actividades — v4.4</h1>
+    <div class="sub">Incorpora procesos de Compras (COM), Supervisión (SUP), Administración (ADM) y Auditorías (AUD — reservado)</div>
+  </div>
+  <div class="meta">Ver. 4.4 | May/2026<br>Fuentes: Talleres operativos · Sesiones con Karina, Arturo, Mireles, Paco Ibarra<br>Estado: Borrador para validación Francisco I. Cardoso</div>
+</div>
+
+<div class="tabs">
+  <button class="tab-btn active" onclick="showTab('catalogo',event)">📋 Catálogo por Proceso</button>
+  <button class="tab-btn" onclick="showTab('matriz',event)">⊞ Matriz Puesto × Actividad</button>
+  <button class="tab-btn" onclick="showTab('prioridades',event)">⭐ Prioridades de Estandarización</button>
+  <button class="tab-btn" onclick="showTab('historial',event)">📜 Historial de Cambios</button>
+</div>
+
+<div class="leyenda">
+  <span class="leyenda-lbl">Tipo:</span>
+  <span class="badge badge-a">⬡ Actividad</span>
+  <span class="badge badge-t">◈ Posible Tarea</span>
+  <span class="badge badge-r">◉ Reservado</span>
+  <span class="badge badge-star">⭐ Top votada</span>
+  &nbsp;|&nbsp;
+  <span class="leyenda-lbl">Puesto:</span>
+  <span class="pt pt-caj">Cajera</span>
+  <span class="pt pt-cho">Chofer</span>
+  <span class="pt pt-pis">Piso</span>
+  <span class="pt pt-sup">Supervisor</span>
+  <span class="pt pt-ger">Gerencia</span>
+  <span class="pt pt-all">Todos</span>
+  &nbsp;|&nbsp;
+  <span class="leyenda-lbl">Estándar:</span>
+  <span style="display:inline-flex;align-items:center;gap:3px;font-size:10.5px;font-weight:600;background:#d1fae5;color:#065f46;border:1px solid #6ee7b7;padding:2px 8px;border-radius:4px;font-family:'IBM Plex Mono',monospace;">▶ VER</span>
+  <span style="font-size:10.5px;color:var(--gris-med);">= disponible &nbsp;</span>
+  <span style="display:inline-flex;align-items:center;gap:3px;font-size:10.5px;font-weight:600;background:#f3f4f6;color:#9ca3af;border:1px solid #e5e7eb;padding:2px 8px;border-radius:4px;font-family:'IBM Plex Mono',monospace;">PENDIENTE</span>
+  <span style="font-size:10.5px;color:var(--gris-med);">= en proceso</span>
+</div>
+
+<div class="main">
+
+<!-- ══════════════ TAB 1: CATÁLOGO ══════════════ -->
+<div id="tab-catalogo" class="panel active">
+
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;padding:8px 14px;background:#fff;border:1px solid var(--borde);border-radius:6px;font-size:11.5px;">
+  <span style="color:var(--gris-med);">Haz clic en el encabezado de cada proceso para expandir o contraer su tabla.</span>
+  <div style="display:flex;gap:8px;">
+    <button onclick="setAllProcs(true)"  style="padding:4px 12px;font-size:11px;font-weight:600;border:1px solid var(--borde);border-radius:4px;background:#f9fafb;cursor:pointer;">▾ Expandir todo</button>
+    <button onclick="setAllProcs(false)" style="padding:4px 12px;font-size:11px;font-weight:600;border:1px solid var(--borde);border-radius:4px;background:#f9fafb;cursor:pointer;">▸ Contraer todo</button>
+  </div>
+</div>
+
+<!-- ══ PROCESO DE COBRO ══ -->
+<div class="proc-sec">
+  <div class="proc-hdr cobro" onclick="toggleProc('cobro')">
+    <span>💰</span><span class="proc-nombre">Proceso de Cobro</span>
+    <span class="proc-desc">— Manejo de dinero en caja</span>
+    <span class="proc-cnt">10 entradas</span><span class="proc-toggle">▾</span>
+  </div>
+  <div class="tbl-wrap" id="proc-cobro"><table>
+    <thead><tr><th>#</th><th>Nombre de Actividad</th><th>Puesto</th><th>Descripción / Alcance</th><th>Tipo</th><th>Votos</th></tr></thead>
+    <tbody>
+      <tr class="prioridad-1"><td class="num">COB-01</td><td class="nom">Cobro en Punto de Venta</td><td class="pue"><span class="pt pt-caj">Cajera</span></td><td class="desc">Procesar el cobro de todas las notas de venta de clientes en caja. Actividad principal del puesto.</td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td><td class="voto"><div class="votos"><span class="estrella">★★★★★</span><span class="vnum"> #1</span></div></td></tr>
+      <tr class="prioridad-1"><td class="num">COB-02</td><td class="nom">Corte de Caja</td><td class="pue"><span class="pt pt-caj">Cajera</span></td><td class="desc">Cuadrar el efectivo, pagos con tarjeta y otros ingresos del día contra el sistema; generar reporte de cierre.</td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td><td class="voto"><div class="votos"><span class="estrella">★★★★</span><span class="vnum"> #2</span></div></td></tr>
+      <tr class="prioridad-1"><td class="num">COB-03</td><td class="nom">Facturación al Cliente</td><td class="pue"><span class="pt pt-caj">Cajera</span></td><td class="desc">Generar facturas fiscales en el sistema para clientes que las solicitan.</td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td><td class="voto"><div class="votos"><span class="estrella">★★★</span><span class="vnum"> #3</span></div></td></tr>
+      <tr class="prioridad-1"><td class="num">COB-04</td><td class="nom">Apertura de Caja</td><td class="pue"><span class="pt pt-caj">Cajera</span></td><td class="desc">Contar el fondo inicial, verificar que coincida con el monto autorizado e iniciar sesión en el sistema antes de la primera venta.</td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td><td class="voto"><div class="votos"><span class="estrella">★★★</span><span class="vnum"> #3</span></div></td></tr>
+      <tr><td class="num">COB-05</td><td class="nom">Recepción de Cobranza de Choferes</td><td class="pue"><span class="pt pt-caj">Cajera</span></td><td class="desc">Recibir el efectivo y documentos de cobro que traen los choferes al regresar de ruta.</td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td><td class="voto"><div class="votos"><span class="vnum">—</span></div></td></tr>
+      <tr><td class="num">COB-07</td><td class="nom">Aplicar Descuento a Empleados</td><td class="pue"><span class="pt pt-caj">Cajera</span></td><td class="desc">Aplicar el porcentaje de descuento autorizado a compras del personal según política interna.</td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td><td class="voto"><div class="votos"><span class="vnum">—</span></div></td></tr>
+      <tr><td class="num">COB-08</td><td class="nom">Devolución y Cancelación en Caja</td><td class="pue"><span class="pt pt-caj">Cajera</span></td><td class="desc">Procesar devoluciones de mercancía o cancelaciones de tickets con autorización correspondiente.</td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td><td class="voto"><div class="votos"><span class="vnum">—</span></div></td></tr>
+      <tr><td class="num">COB-09</td><td class="nom">Gestión de Gastos y Egresos Autorizados</td><td class="pue"><span class="pt pt-caj">Cajera</span></td><td class="desc">Registrar y entregar efectivo para gastos operativos autorizados (ver PAG-13 para pago a proveedores).</td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td><td class="voto"><div class="votos"><span class="vnum">—</span></div></td></tr>
+      <tr><td class="num">COB-10</td><td class="nom">Registro de Cliente Nuevo en Sistema</td><td class="pue"><span class="pt pt-caj">Cajera</span></td><td class="desc">Dar de alta en el sistema a clientes que compran por primera vez o solicitan cuenta.</td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td><td class="voto"><div class="votos"><span class="vnum">—</span></div></td></tr>
+      <tr><td class="num">COB-11</td><td class="nom">Empaque de Productos al Cliente</td><td class="pue"><span class="pt pt-caj">Cajera</span></td><td class="desc">Embolsar y entregar la mercancía al cliente al finalizar el cobro.</td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td><td class="voto"><div class="votos"><span class="vnum">—</span></div></td></tr>
+    </tbody>
+  </table></div>
+</div>
+
+<!-- ══ PROCESO DE SOPORTE A CAJA ══ -->
+<div class="proc-sec">
+  <div class="proc-hdr scaja" onclick="toggleProc('scaja')">
+    <span>🧾</span><span class="proc-nombre">Proceso de Soporte a Caja</span>
+    <span class="proc-desc">— Atención telefónica, pedidos domicilio y actualización de precios</span>
+    <span class="proc-cnt">5 entradas</span><span class="proc-toggle">▾</span>
+  </div>
+  <div class="tbl-wrap" id="proc-scaja"><table>
+    <thead><tr><th>#</th><th>Nombre de Actividad</th><th>Puesto</th><th>Descripción / Alcance</th><th>Tipo</th><th>Votos</th></tr></thead>
+    <tbody>
+      <tr class="prioridad-1"><td class="num">SCA-01</td><td class="nom">Revisión y Registro de Pedidos a Domicilio</td><td class="pue"><span class="pt pt-caj">Cajera</span></td><td class="desc">Anotar y confirmar pedidos telefónicos o en mostrador para entrega a domicilio.</td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td><td class="voto"><div class="votos"><span class="estrella">★★★★★</span><span class="vnum"> #1</span></div></td></tr>
+      <tr><td class="num">SCA-02</td><td class="nom">Atención Telefónica</td><td class="pue"><span class="pt pt-caj">Cajera</span></td><td class="desc">Recibir y atender llamadas entrantes de clientes durante la operación.</td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td><td class="voto"><div class="votos"><span class="vnum">—</span></div></td></tr>
+      <tr><td class="num">SCA-03</td><td class="nom">Reposición del Estante de Abarrotes</td><td class="pue"><span class="pt pt-caj">Cajera</span></td><td class="desc">Abastecer el estante de abarrotes del área de caja cuando se detecta faltante.</td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td><td class="voto"><div class="votos"><span class="vnum">—</span></div></td></tr>
+      <tr><td class="num">SCA-04</td><td class="nom">Promoción de Ofertas del Día</td><td class="pue"><span class="pt pt-caj">Cajera</span></td><td class="desc">Comunicar activamente las ofertas del día a clientes en caja o mostrador.</td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td><td class="voto"><div class="votos"><span class="vnum">—</span></div></td></tr>
+      <tr class="prioridad-1"><td class="num">SCA-05</td><td class="nom">Actualización de Precios en Sistema</td><td class="pue"><span class="pt pt-caj">Cajera</span></td><td class="desc">Ingresar cambios de precio en el sistema según instrucciones del área de compras o gerencia.</td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td><td class="voto"><div class="votos"><span class="estrella">★★★★</span><span class="vnum"> #2</span></div></td></tr>
+    </tbody>
+  </table></div>
+</div>
+
+<!-- ══ PROCESO DE PAGO A PROVEEDORES ══ -->
+<div class="proc-sec">
+  <div class="proc-hdr pago" onclick="toggleProc('pago')">
+    <span>🏦</span><span class="proc-nombre">Proceso de Pago a Proveedores</span>
+    <span class="proc-desc">— Gestión documental, transferencias y pagos en efectivo</span>
+    <span class="proc-cnt">18 entradas</span><span class="proc-toggle">▾</span>
+  </div>
+  <div class="tbl-wrap" id="proc-pago"><table>
+    <thead><tr><th>#</th><th>Nombre de Actividad</th><th>Puesto</th><th>Descripción / Alcance</th><th>Tipo</th><th>Votos</th></tr></thead>
+    <tbody>
+      <tr class="ori-row"><td colspan="6">↳ Preparación y Registro Documental</td></tr>
+      <tr class="prioridad-1"><td class="num">PAG-01</td><td class="nom">Realización de Contrarrecibos</td><td class="pue"><span class="pt pt-caj">Cajera</span></td><td class="desc">Recibir la documentación del proveedor, sellarla, graparla y entregarle su comprobante.<span class="nota-nueva">↳ #1 más votada del taller (6 votos).</span></td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td><td class="voto"><div class="votos"><span class="estrella">★★★★★★</span><span class="vnum"> #1</span></div></td></tr>
+      <tr><td class="num">PAG-02</td><td class="nom">Sorteo de Contrarrecibos por Fecha de Pago</td><td class="pue"><span class="pt pt-caj">Cajera</span></td><td class="desc">Organizar los contrarrecibos en las repisas según la fecha de pago predefinida para cada proveedor.</td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td><td class="voto"><div class="votos"><span class="vnum">—</span></div></td></tr>
+      <tr><td class="num">PAG-03</td><td class="nom">Sorteo de Contrarrecibos por Tipo de Banco</td><td class="pue"><span class="pt pt-caj">Cajera</span></td><td class="desc">Clasificar contrarrecibos según institución bancaria del proveedor (tipo "02" o "05").<span class="nota-sub">↳ 1 voto en taller.</span></td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td><td class="voto"><div class="votos"><span class="estrella">★</span><span class="vnum"> 1v</span></div></td></tr>
+      <tr class="ori-row"><td colspan="6">↳ Gestión Digital y Conciliación</td></tr>
+      <tr class="prioridad-1"><td class="num">PAG-04</td><td class="nom">Descarga de XML en Sistema</td><td class="pue"><span class="pt pt-caj">Cajera</span></td><td class="desc">Descargar archivos XML de facturas del portal fiscal (lunes y viernes) para captura y conciliación.<span class="nota-nueva">↳ Empate en 2° lugar (5 votos).</span></td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td><td class="voto"><div class="votos"><span class="estrella">★★★★★</span><span class="vnum"> #2</span></div></td></tr>
+      <tr><td class="num">PAG-05</td><td class="nom">Alta de Proveedores en Sistema y Portal</td><td class="pue"><span class="pt pt-caj">Cajera</span></td><td class="desc">Registrar nuevos proveedores en CONTPAQi Bancos y en el portal bancario de Banorte.</td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td><td class="voto"><div class="votos"><span class="vnum">—</span></div></td></tr>
+      <tr class="prioridad-1"><td class="num">PAG-06</td><td class="nom">Conciliación de Complementos de Pago</td><td class="pue"><span class="pt pt-caj">Cajera</span></td><td class="desc">Cruzar facturas recibidas contra complementos de pago emitidos por proveedores para identificar faltantes. (4 votos).</td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td><td class="voto"><div class="votos"><span class="estrella">★★★★</span><span class="vnum"> 4v</span></div></td></tr>
+      <tr class="ori-row"><td colspan="6">↳ Captura y Revisión de Transferencias</td></tr>
+      <tr class="prioridad-1"><td class="num">PAG-07</td><td class="nom">Captura de Transferencias en CONTPAQi Bancos</td><td class="pue"><span class="pt pt-caj">Cajera</span></td><td class="desc">Registrar manualmente cada pago a proveedor en el módulo de CONTPAQi Bancos.<span class="nota-nueva">↳ Empate en 2° lugar (5 votos).</span></td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td><td class="voto"><div class="votos"><span class="estrella">★★★★★</span><span class="vnum"> #2</span></div></td></tr>
+      <tr class="prioridad-1"><td class="num">PAG-08</td><td class="nom">Revisión de Capturas de Transferencias</td><td class="pue"><span class="pt pt-caj">Cajera</span></td><td class="desc">Cotejar lo capturado en sistema contra el calendario financiero: fechas, importes, proveedor y facturas. (4 votos).</td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td><td class="voto"><div class="votos"><span class="estrella">★★★★</span><span class="vnum"> 4v</span></div></td></tr>
+      <tr class="ori-row"><td colspan="6">↳ Ejecución de Pagos Electrónicos</td></tr>
+      <tr><td class="num">PAG-09</td><td class="nom">Generación de Archivo .TXT para Pago Masivo</td><td class="pue"><span class="pt pt-caj">Cajera</span></td><td class="desc">Exportar desde CONTPAQi el archivo .TXT con todos los pagos aprobados para carga masiva en Banorte.</td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td><td class="voto"><div class="votos"><span class="vnum">—</span></div></td></tr>
+      <tr><td class="num">PAG-10</td><td class="nom">Carga de Archivo .TXT al Portal Banorte</td><td class="pue"><span class="pt pt-caj">Cajera</span></td><td class="desc">Subir el archivo .TXT al portal bancario de Banorte para procesar pagos masivos.</td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td><td class="voto"><div class="votos"><span class="vnum">—</span></div></td></tr>
+      <tr><td class="num">PAG-11</td><td class="nom">Captura Manual de Transferencia en Portal</td><td class="pue"><span class="pt pt-caj">Cajera</span></td><td class="desc">Ingresar manualmente transferencias de proveedores con bancos distintos a Banorte o casos especiales.</td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td><td class="voto"><div class="votos"><span class="vnum">—</span></div></td></tr>
+      <tr><td class="num">PAG-12</td><td class="nom">Pago de Servicios en Portal Banorte</td><td class="pue"><span class="pt pt-caj">Cajera</span></td><td class="desc">Pagar servicios recurrentes (CFE, Telnor, recolectora, etc.) usando el módulo de servicios del portal.</td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td><td class="voto"><div class="votos"><span class="vnum">—</span></div></td></tr>
+      <tr class="ori-row"><td colspan="6">↳ Pago en Efectivo</td></tr>
+      <tr class="prioridad-1"><td class="num">PAG-13</td><td class="nom">Pago de Proveedores en Efectivo</td><td class="pue"><span class="pt pt-caj">Cajera</span></td><td class="desc">Liquidar en efectivo a proveedores con vales autorizados. Alto riesgo financiero — requiere verificar firmas, montos exactos y vales de entrada.<span class="nota-nueva">↳ Empate en 2° lugar (5 votos). Priorizada por alto riesgo financiero.</span></td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td><td class="voto"><div class="votos"><span class="estrella">★★★★★</span><span class="vnum"> #2</span></div></td></tr>
+      <tr class="ori-row"><td colspan="6">↳ Seguimiento y Comprobación</td></tr>
+      <tr class="prioridad-1"><td class="num">PAG-14</td><td class="nom">Seguimiento de Complementos de Pago</td><td class="pue"><span class="pt pt-caj">Cajera</span></td><td class="desc">Contactar a proveedores que no han emitido complemento de pago: WhatsApp → llamada → visita. Vital para deducibilidad fiscal. (4 votos).</td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td><td class="voto"><div class="votos"><span class="estrella">★★★★</span><span class="vnum"> 4v</span></div></td></tr>
+      <tr><td class="num">PAG-15</td><td class="nom">Atención a Mensajes y Llamadas de Proveedores</td><td class="pue"><span class="pt pt-caj">Cajera</span></td><td class="desc">Atender comunicación entrante de proveedores: estatus de pagos, retenciones o canalización al área.</td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td><td class="voto"><div class="votos"><span class="vnum">—</span></div></td></tr>
+      <tr><td class="num">PAG-16</td><td class="nom">Impresión y Adjunto Semanal de Comprobantes</td><td class="pue"><span class="pt pt-caj">Cajera</span></td><td class="desc">Imprimir semanalmente los comprobantes de transferencia y graparlos con su documento de pago para archivo físico.<span class="nota-sub">↳ 1 voto en taller.</span></td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td><td class="voto"><div class="votos"><span class="estrella">★</span><span class="vnum"> 1v</span></div></td></tr>
+      <tr><td class="num">PAG-17</td><td class="nom">Archivo Electrónico Mensual de Comprobantes</td><td class="pue"><span class="pt pt-caj">Cajera</span></td><td class="desc">Guardar mensualmente comprobantes de pago en PDF como archivo electrónico organizado por mes.<span class="nota-sub">↳ 1 voto en taller.</span></td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td><td class="voto"><div class="votos"><span class="estrella">★</span><span class="vnum"> 1v</span></div></td></tr>
+      <tr><td class="num">PAG-18</td><td class="nom">Búsqueda y Clasificación de Proveedores por Tipo</td><td class="pue"><span class="pt pt-caj">Cajera</span></td><td class="desc">Identificar tipo de proveedor ("02" o "05") para separar contrarrecibos antes de captura de transferencias.<span class="nota-sub">↳ Posible tarea dentro de PAG-03 o PAG-07.</span></td><td class="tipo"><span class="badge badge-t">◈ Posible Tarea</span></td><td class="voto"><div class="votos"><span class="vnum">—</span></div></td></tr>
+    </tbody>
+  </table></div>
+</div>
+
+<!-- ══ PROCESO DE VENTA ══ -->
+<div class="proc-sec">
+  <div class="proc-hdr venta" onclick="toggleProc('venta')">
+    <span>🛒</span><span class="proc-nombre">Proceso de Venta (Pedidos y Entregas)</span>
+    <span class="proc-desc">— Atención en mostrador y entrega a domicilio</span>
+    <span class="proc-cnt">16 entradas</span><span class="proc-toggle">▾</span>
+  </div>
+  <div class="tbl-wrap" id="proc-venta"><table>
+    <thead><tr><th>#</th><th>Nombre de Actividad</th><th>Puesto</th><th>Descripción / Alcance</th><th>Tipo</th><th>Votos</th></tr></thead>
+    <tbody>
+      <tr class="ori-row"><td colspan="6">↳ Sistemas y Operación Interna</td></tr>
+      <tr><td class="num">VTA-12</td><td class="nom">Apertura y Revisión de Sistemas (AdminPAQ / VentPAQ)</td><td class="pue"><span class="pt pt-ger">Gerencia</span></td><td class="desc">Verificar al inicio del turno que AdminPAQ y VentPAQ estén operando correctamente antes de iniciar operaciones.<span class="nota-nueva">↳ Nueva — Paco Ibarra.</span></td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td><td class="voto"><div class="votos"><span class="vnum">—</span></div></td></tr>
+      <tr><td class="num">VTA-13</td><td class="nom">Elaboración, Impresión y Entrega de Notas de Pedido</td><td class="pue"><span class="pt pt-ger">Gerencia</span></td><td class="desc">Generar las notas de pedido en sistema, imprimirlas y entregarlas al personal de piso o choferes para su preparación.<span class="nota-nueva">↳ Nueva — Paco Ibarra.</span></td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td><td class="voto"><div class="votos"><span class="vnum">—</span></div></td></tr>
+      <tr><td class="num">VTA-14</td><td class="nom">Facturación de Pedidos, Traspasos y Serie A</td><td class="pue"><span class="pt pt-ger">Gerencia</span></td><td class="desc">Generar facturas de pedidos, traspasos internos y facturas serie A en el sistema.<span class="nota-nueva">↳ Nueva — Paco Ibarra.</span></td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td><td class="voto"><div class="votos"><span class="vnum">—</span></div></td></tr>
+      <tr><td class="num">VTA-15</td><td class="nom">Atención a Cotizaciones de Clientes e Instituciones</td><td class="pue"><span class="pt pt-ger">Gerencia</span></td><td class="desc">Preparar y enviar cotizaciones a clientes especiales e instituciones que lo solicitan.<span class="nota-nueva">↳ Nueva — Paco Ibarra.</span></td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td><td class="voto"><div class="votos"><span class="vnum">—</span></div></td></tr>
+      <tr><td class="num">VTA-16</td><td class="nom">Cancelaciones, Devoluciones y Correcciones de Ticket</td><td class="pue"><span class="pt pt-ger">Gerencia</span></td><td class="desc">Procesar cancelaciones de pedidos, devoluciones y correcciones de tickets con error en cualquier caja.<span class="nota-nueva">↳ Nueva — Paco Ibarra.</span></td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td><td class="voto"><div class="votos"><span class="vnum">—</span></div></td></tr>
+      <tr class="ori-row"><td colspan="6">↳ Piso — Mostrador</td></tr>
+      <tr class="prioridad-1"><td class="num">VTA-01</td><td class="nom">Atención al Cliente en Piso</td><td class="pue"><span class="pt pt-pis">Piso</span></td><td class="desc">Saludar, orientar y asistir al cliente que ingresa al área de ventas hasta concretar su compra.</td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td><td class="voto"><div class="votos"><span class="estrella">★★★★★</span><span class="vnum"> #1</span></div></td></tr>
+      <tr class="prioridad-1"><td class="num">VTA-02</td><td class="nom">Preparación de Pedido</td><td class="pue"><span class="pt pt-pis">Piso</span></td><td class="desc">Surtir el pedido del cliente: recorrer con listado o tablet, pesar, validar y acomodar productos. Mismo estándar que VTA-06.</td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td><td class="voto"><div class="votos"><span class="estrella">★★★★</span><span class="vnum"> #3</span></div></td></tr>
+      <tr><td class="num">VTA-03</td><td class="nom">Apoyo en Selección de Productos</td><td class="pue"><span class="pt pt-pis">Piso</span></td><td class="desc">Asesorar al cliente en elección de productos según calidad, presentación y precio.<span class="nota-sub">↳ Posible tarea dentro de VTA-01.</span></td><td class="tipo"><span class="badge badge-t">◈ Posible Tarea</span></td><td class="voto"><div class="votos"><span class="vnum">—</span></div></td></tr>
+      <tr><td class="num">VTA-04</td><td class="nom">Respuesta a Llamado de Campana</td><td class="pue"><span class="pt pt-pis">Piso</span></td><td class="desc">Acudir de inmediato al sonido de la campana para apoyar en caja o atender a un cliente.<span class="nota-sub">↳ Posible tarea dentro de VTA-01.</span></td><td class="tipo"><span class="badge badge-t">◈ Posible Tarea</span></td><td class="voto"><div class="votos"><span class="vnum">—</span></div></td></tr>
+      <tr><td class="num">VTA-05</td><td class="nom">Acarreo de Mercancía al Vehículo del Cliente</td><td class="pue"><span class="pt pt-pis">Piso</span></td><td class="desc">Transportar el pedido ya pagado hasta el vehículo del cliente como cierre del servicio.<span class="nota-sub">↳ Posible tarea de cierre dentro de VTA-01.</span></td><td class="tipo"><span class="badge badge-t">◈ Posible Tarea</span></td><td class="voto"><div class="votos"><span class="vnum">—</span></div></td></tr>
+      <tr class="ori-row"><td colspan="6">↳ Choferes — Entrega a Domicilio</td></tr>
+      <tr class="prioridad-1"><td class="num">VTA-06</td><td class="nom">Preparación de Pedido</td><td class="pue"><span class="pt pt-cho">Chofer</span></td><td class="desc">Juntar y verificar la mercancía que corresponde a la orden de entrega. Mismo estándar que VTA-02.</td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td><td class="voto"><div class="votos"><span class="estrella">★★★★★</span><span class="vnum"> #1</span></div></td></tr>
+      <tr class="prioridad-1"><td class="num">VTA-07</td><td class="nom">Entrega de Pedido al Cliente</td><td class="pue"><span class="pt pt-cho">Chofer</span></td><td class="desc">Estacionarse, abrir vehículo, bajar mercancía, confirmar pedido con el cliente y cerrar la entrega.</td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td><td class="voto"><div class="votos"><span class="estrella">★★★★</span><span class="vnum"> #3</span></div></td></tr>
+      <tr class="prioridad-1"><td class="num">VTA-08</td><td class="nom">Transportación de Pedido en Ruta</td><td class="pue"><span class="pt pt-cho">Chofer</span></td><td class="desc">Conducir la camioneta siguiendo la ruta asignada hasta los puntos de entrega.</td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td><td class="voto"><div class="votos"><span class="estrella">★★★</span><span class="vnum"> #5</span></div></td></tr>
+      <tr class="prioridad-1"><td class="num">VTA-09</td><td class="nom">Carga de Pedido en Vehículo</td><td class="pue"><span class="pt pt-cho">Chofer</span></td><td class="desc">Cargar y organizar la mercancía en la camioneta de manera segura y ordenada por ruta.</td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td><td class="voto"><div class="votos"><span class="estrella">★★</span><span class="vnum"> #6</span></div></td></tr>
+      <tr class="prioridad-1"><td class="num">VTA-10</td><td class="nom">Cobranza en Ruta a Clientes</td><td class="pue"><span class="pt pt-cho">Chofer</span></td><td class="desc">Cobrar el importe de los pedidos entregados a clientes con cuenta abierta durante la ruta.</td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td><td class="voto"><div class="votos"><span class="estrella">★★★★</span><span class="vnum"> #4</span></div></td></tr>
+      <tr><td class="num">VTA-11</td><td class="nom">Comunicación de Cambios de Precio a Cajeras</td><td class="pue"><span class="pt pt-ger">Gerencia</span></td><td class="desc">Notificar a las cajeras los cambios de precio de mercancía entrante para actualización en sistema.<span class="nota-nueva">↳ Nueva — Paco Ibarra.</span></td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td><td class="voto"><div class="votos"><span class="vnum">—</span></div></td></tr>
+    </tbody>
+  </table></div>
+</div>
+
+<!-- ══ PROCESO DE MERCANCÍAS ══ -->
+<div class="proc-sec">
+  <div class="proc-hdr mer" onclick="toggleProc('mer')">
+    <span>📦</span><span class="proc-nombre">Proceso de Mercancías</span>
+    <span class="proc-desc">— Exhibición, rotación, calidad y reposición dentro de la empresa</span>
+    <span class="proc-cnt">10 entradas</span><span class="proc-toggle">▾</span>
+  </div>
+  <div class="tbl-wrap" id="proc-mer"><table>
+    <thead><tr><th>#</th><th>Nombre de Actividad</th><th>Puesto</th><th>Descripción / Alcance</th><th>Tipo</th><th>Votos</th></tr></thead>
+    <tbody>
+      <tr class="ori-row"><td colspan="6">↳ Registro en Sistema</td></tr>
+      <tr><td class="num">MER-11</td><td class="nom">Registro de Entradas de Mercancía en Sistema</td><td class="pue"><span class="pt pt-ger">Gerencia</span></td><td class="desc">Registrar en AdminPAQ las entradas de mercancía recibida de proveedores externos para mantener el inventario actualizado.<span class="nota-nueva">↳ Nueva — Paco Ibarra.</span></td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td><td class="voto"><div class="votos"><span class="vnum">—</span></div></td></tr>
+      <tr><td class="num">MER-12</td><td class="nom">Actualización de Precios de Mercancía Entrante en Sistema</td><td class="pue"><span class="pt pt-ger">Gerencia</span></td><td class="desc">Actualizar en el sistema los precios de los productos recién recibidos según las notas del proveedor.<span class="nota-nueva">↳ Nueva — Paco Ibarra.</span></td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td><td class="voto"><div class="votos"><span class="vnum">—</span></div></td></tr>
+      <tr class="ori-row"><td colspan="6">↳ Piso — Exhibición, Rotación y Calidad</td></tr>
+      <tr class="prioridad-1"><td class="num">MER-03</td><td class="nom">Reposición, Rotación y Acomodo de Exhibidores</td><td class="pue"><span class="pt pt-pis">Piso</span></td><td class="desc">Limpiar exhibidor, rotar producto (viejo al frente), reabastecer y asegurar presentación atractiva.</td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td><td class="voto"><div class="votos"><span class="estrella">★★★★</span><span class="vnum"> #2</span></div></td></tr>
+      <tr><td class="num">MER-04</td><td class="nom">Frenteo de Pasillos</td><td class="pue"><span class="pt pt-pis">Piso</span></td><td class="desc">Jalar productos al frente de los anaqueles para mantener presentación visible y ordenada.<span class="nota-sub">↳ Posible tarea dentro de MER-03.</span></td><td class="tipo"><span class="badge badge-t">◈ Posible Tarea</span></td><td class="voto"><div class="votos"><span class="vnum">—</span></div></td></tr>
+      <tr><td class="num">MER-05</td><td class="nom">Verificación de Precios en Exhibidor</td><td class="pue"><span class="pt pt-pis">Piso</span></td><td class="desc">Verificar que los letreros coincidan con el precio vigente, especialmente al recibir mercancía nueva.<span class="nota-sub">↳ Posible tarea dentro de MER-03.</span></td><td class="tipo"><span class="badge badge-t">◈ Posible Tarea</span></td><td class="voto"><div class="votos"><span class="vnum">—</span></div></td></tr>
+      <tr><td class="num">MER-06</td><td class="nom">Exhibición de Productos Nuevos o en Especial</td><td class="pue"><span class="pt pt-pis">Piso</span></td><td class="desc">Crear o modificar exhibiciones para destacar productos recién llegados o en promoción.</td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td><td class="voto"><div class="votos"><span class="vnum">—</span></div></td></tr>
+      <tr><td class="num">MER-07</td><td class="nom">Enmallado de Producto de Segunda Calidad</td><td class="pue"><span class="pt pt-pis">Piso</span></td><td class="desc">Identificar, separar y enmallar productos que perdieron presentación pero aún son consumibles.</td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td><td class="voto"><div class="votos"><span class="vnum">—</span></div></td></tr>
+      <tr class="ori-row"><td colspan="6">↳ Compartido</td></tr>
+      <tr><td class="num">MER-09</td><td class="nom">Actualización de Precios en Exhibición</td><td class="pue"><span class="pt pt-all">Todos</span></td><td class="desc">Reemplazar letreros de precio en anaqueles y exhibidores cuando cambia la lista de precios.</td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td><td class="voto"><div class="votos"><span class="vnum">—</span></div></td></tr>
+      <tr><td class="num">MER-10</td><td class="nom">Empaque de Productos a Granel</td><td class="pue"><span class="pt pt-all">Todos</span></td><td class="desc">Pesar y empacar en bolsas productos a granel (frijol, arroz, etc.) para venta o surtido de pedido.<span class="nota-sub">↳ Posible tarea dentro de VTA-02 o MER-03.</span></td><td class="tipo"><span class="badge badge-t">◈ Posible Tarea</span></td><td class="voto"><div class="votos"><span class="vnum">—</span></div></td></tr>
+    </tbody>
+  </table></div>
+</div>
+
+<!-- ══ PROCESO DE SOPORTE EN OPERACIÓN ══ -->
+<div class="proc-sec">
+  <div class="proc-hdr sop" onclick="toggleProc('sop')">
+    <span>🔧</span><span class="proc-nombre">Proceso de Soporte en Operación</span>
+    <span class="proc-desc">— Vehículos, limpieza, apertura y cierre</span>
+    <span class="proc-cnt">6 entradas</span><span class="proc-toggle">▾</span>
+  </div>
+  <div class="tbl-wrap" id="proc-sop"><table>
+    <thead><tr><th>#</th><th>Nombre de Actividad</th><th>Puesto</th><th>Descripción / Alcance</th><th>Tipo</th><th>Votos</th></tr></thead>
+    <tbody>
+      <tr class="prioridad-1"><td class="num">SOP-01</td><td class="nom">Apertura y Revisión del Vehículo</td><td class="pue"><span class="pt pt-cho">Chofer</span></td><td class="desc">Checklist al inicio del día: aceite, anticongelante, llantas, documentación del vehículo y licencia.</td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td><td class="voto"><div class="votos"><span class="estrella">★★★★★</span><span class="vnum"> #2</span></div></td></tr>
+      <tr><td class="num">SOP-02</td><td class="nom">Compras de Gastos Generales</td><td class="pue"><span class="pt pt-cho">Chofer</span></td><td class="desc">Adquirir insumos y materiales en proveedores externos (Home Depot, VG Depot, etc.) con fondo autorizado. Tarea esporádica.</td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td><td class="voto"><div class="votos"><span class="vnum">—</span></div></td></tr>
+      <tr><td class="num">SOP-03</td><td class="nom">Puntualidad y Preparación del Área</td><td class="pue"><span class="pt pt-pis">Piso</span></td><td class="desc">Asegurar que cada persona esté en su puesto y su zona de trabajo esté ordenada al inicio del turno.</td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td><td class="voto"><div class="votos"><span class="vnum">—</span></div></td></tr>
+      <tr class="prioridad-1"><td class="num">SOP-04</td><td class="nom">Limpieza y Orden del Área Asignada</td><td class="pue"><span class="pt pt-all">Todos</span></td><td class="desc">Mantener limpia y ordenada el área asignada durante el turno y al cierre.</td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td><td class="voto"><div class="votos"><span class="estrella">★★★</span><span class="vnum"> #4</span></div></td></tr>
+      <tr class="prioridad-1"><td class="num">SOP-05</td><td class="nom">Cierre de Tienda por Área</td><td class="pue"><span class="pt pt-all">Todos</span></td><td class="desc">Ejecutar tareas de fin de jornada: bajar cortinas, poner lonas, guardar y dejar listo para el siguiente turno.</td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td><td class="voto"><div class="votos"><span class="estrella">★★</span><span class="vnum"> #5</span></div></td></tr>
+      <tr><td class="num">SOP-06</td><td class="nom">Limpieza y Orden del Vehículo</td><td class="pue"><span class="pt pt-cho">Chofer</span></td><td class="desc">Mantener el orden y la limpieza del vehículo de reparto al término de cada ruta o al cierre del día.</td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td><td class="voto"><div class="votos"><span class="vnum">—</span></div></td></tr>
+    </tbody>
+  </table></div>
+</div>
+
+<!-- ══ PROCESO DE COMPRAS ══ -->
+<div class="proc-sec">
+  <div class="proc-hdr com" onclick="toggleProc('com')">
+    <span>🧺</span><span class="proc-nombre">Proceso de Compras</span>
+    <span class="proc-desc">— Adquisición de mercancía desde la prospección hasta el ingreso formal al inventario</span>
+    <span class="proc-cnt">12 entradas</span><span class="proc-toggle">▾</span>
+  </div>
+  <div class="tbl-wrap" id="proc-com"><table>
+    <thead><tr><th>#</th><th>Nombre de Actividad</th><th>Puesto</th><th>Dueño</th><th>Descripción / Alcance</th><th>Tipo</th></tr></thead>
+    <tbody>
+      <tr class="ori-row"><td colspan="6">↳ Prospección y Cotización</td></tr>
+      <tr><td class="num">COM-01</td><td class="nom">Monitoreo de Precios y Oferta en Mercado</td><td class="pue"><span class="pt pt-sup">Supervisor</span></td><td class="due">Arturo / Mireles</td><td class="desc">Obtener información de precios, calidad y disponibilidad de producto. Dos modalidades: recorrido físico en mercado de abastos ó recepción de llamada / WhatsApp / cotización de proveedor. Misma actividad, distinto canal.</td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td></tr>
+      <tr><td class="num">COM-02</td><td class="nom">Recepción y Turno de Cotización de Abarrotes</td><td class="pue"><span class="pt pt-ger">Gerencia</span></td><td class="due">Francisco I. Cardoso</td><td class="desc">Recibir la cotización semanal de Rembao (lunes) y turnarla a Jackie para revisión y generación del pedido. Sin revisión formal — es recepción y reenvío.<span class="nota-sub">↳ Posible tarea dentro de COM-05.</span></td><td class="tipo"><span class="badge badge-t">◈ Posible Tarea</span></td></tr>
+      <tr><td class="num">COM-03</td><td class="nom">Cotización Especial de Insumos de Alto Valor</td><td class="pue"><span class="pt pt-ger">Gerencia</span></td><td class="due">Karina</td><td class="desc">Buscar y comparar precios cuando el monto del insumo lo justifica. Actividad esporádica.<span class="nota-sub">↳ Posible tarea — frecuencia baja.</span></td><td class="tipo"><span class="badge badge-t">◈ Posible Tarea</span></td></tr>
+      <tr class="ori-row"><td colspan="6">↳ Generación de Pedido</td></tr>
+      <tr><td class="num">COM-04</td><td class="nom">Instrucción de Compra de Producto Fresco y Granel</td><td class="pue"><span class="pt pt-sup">Supervisor</span></td><td class="due">Arturo</td><td class="desc">Decidir qué productos comprar y a qué proveedor, y comunicar la instrucción de compra. Cubre todos los frescos: hortalizas, verduras, frutas, hierbas, legumbres, variedades gourmet/especiales y en menor medida granos y semillas.</td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td></tr>
+      <tr><td class="num">COM-05</td><td class="nom">Generación de Pedido de Abarrotes</td><td class="pue"><span class="pt pt-caj">Cajera</span></td><td class="due">Jackie</td><td class="desc">A partir de la cotización de Rembao — revisar contra Amazon y almacén, y generar el pedido formal de abarrotes.</td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td></tr>
+      <tr><td class="num">COM-06</td><td class="nom">Pedido Diario al Rancho</td><td class="pue"><span class="pt pt-sup">Supervisor</span></td><td class="due">Encargado de verduras</td><td class="desc">Llamada matutina al encargado del rancho para indicar qué producto se necesita ese día. Sin cotización — solo pedido según necesidad del día.</td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td></tr>
+      <tr class="ori-row"><td colspan="6">↳ Recepción de Proveedores Externos</td></tr>
+      <tr><td class="num">COM-07</td><td class="nom">Recepción e Inspección de Mercancía de Proveedor</td><td class="pue"><span class="pt pt-sup">Supervisor</span></td><td class="due">Arturo / Mireles</td><td class="desc">Verificar calidad, frescura, peso, cantidades y precio de la mercancía entregada por proveedores antes de aceptarla. Arturo y Mireles lo ejecutan en turnos distintos. Incluye detección de faltantes, devoluciones o mercancía en mal estado.</td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td></tr>
+      <tr><td class="num">COM-08</td><td class="nom">Generación de Entrada de Mercancías en Sistema</td><td class="pue"><span class="pt pt-sup">Supervisor</span></td><td class="due">Arturo</td><td class="desc">Generar el documento de Entrada de Mercancías en sistema al aceptar la mercancía del proveedor. Firmada por dos personas como control de recepción. Aplica a proveedores de frescos y abarrotes.</td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td></tr>
+      <tr class="ori-row"><td colspan="6">↳ Abastecimiento desde Rancho</td></tr>
+      <tr><td class="num">COM-09</td><td class="nom">Recolección de Mercancía en Rancho</td><td class="pue"><span class="pt pt-cho">Chofer</span></td><td class="due">Chofer asignado</td><td class="desc">Viaje de tarde/mediodía al rancho a recoger la mercancía cosechada según el pedido matutino.<span class="nota-migra">↳ Migra de MER-01.</span></td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td></tr>
+      <tr><td class="num">COM-10</td><td class="nom">Recepción y Registro Físico de Mercancía del Rancho</td><td class="pue"><span class="pt pt-sup">Supervisor</span></td><td class="due">Chofer + Mireles</td><td class="desc">Al llegar la mercancía: chofer apunta en libreta lo que se descargó; Mireles revisa y firma certificando el apunte. Control físico del mismo día — antes del alta en sistema.<span class="nota-migra">↳ Migra parcialmente de MER-02.</span></td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td></tr>
+      <tr><td class="num">COM-11</td><td class="nom">Alta de Entrada de Mercancías del Rancho en Sistema</td><td class="pue"><span class="pt pt-sup">Supervisor</span></td><td class="due">Arturo</td><td class="desc">Al día siguiente por la mañana: Arturo genera la entrada formal en sistema de la mercancía del rancho recibida la tarde anterior. La ventana entre recepción física y registro en sistema es conocida y aceptada.</td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td></tr>
+      <tr class="ori-row"><td colspan="6">↳ Gestión de Excedente</td></tr>
+      <tr><td class="num">COM-12</td><td class="nom">Gestión de Excedente de Producto de Rancho</td><td class="pue"><span class="pt pt-sup">Supervisor</span></td><td class="due">Mireles / Encargado de verduras</td><td class="desc">Detectar producto en riesgo de no venderse, investigar precio de mercado, ajustar precio y coordinar promoción para acelerar la salida. Aplica a cualquier excedente de producción propia: betabel, tomate, chile u otro producto de temporada.</td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td></tr>
+    </tbody>
+  </table></div>
+</div>
+
+<!-- ══ PROCESO DE SUPERVISIÓN ══ -->
+<div class="proc-sec">
+  <div class="proc-hdr sup" onclick="toggleProc('sup')">
+    <span>🛡️</span><span class="proc-nombre">Proceso de Supervisión</span>
+    <span class="proc-desc">— Inspección, validación y seguimiento del trabajo de personas y áreas</span>
+    <span class="proc-cnt">9 entradas</span><span class="proc-toggle">▾</span>
+  </div>
+  <div class="tbl-wrap" id="proc-sup">
+    <div class="cultura-box" style="margin:0;border-radius:0;border-left:none;border-right:none;border-top:none;">
+      <strong>Principios de supervisión de área — Central de Verduras y Hortalizas:</strong><br>
+      La supervisión de cualquier área se evalúa contra cuatro principios: <strong>(1) Cada cosa en su lugar</strong> — todo objeto tiene una ubicación fija y conocida; <strong>(2) Que esté acomodado</strong> — lo que debería estar en su lugar, efectivamente está ahí; <strong>(3) Que esté limpio</strong> — sin suciedad, residuos ni deterioro visible; <strong>(4) Que esté señalizado</strong> — la señalización permite que los tres principios anteriores funcionen independientemente de quién esté en el área, y es la base de la estandarización visual. En zonas con flujo de inventario, el principio de "cada cosa en su lugar" incluye implícitamente el orden de rotación (viejo al frente, nuevo al fondo).<br>
+      <em style="font-size:11px;color:var(--gris-med);">La supervisión efectiva no ocurre solo en momentos definidos — requiere una práctica continua de identificación de pendientes y acción proactiva a lo largo del turno.</em>
+    </div>
+    <table>
+    <thead><tr><th>#</th><th>Nombre de Actividad</th><th>Puesto</th><th>Dueño</th><th>Descripción / Alcance</th><th>Tipo</th></tr></thead>
+    <tbody>
+      <tr class="ori-row"><td colspan="6">↳ Control de Personal</td></tr>
+      <tr><td class="num">SUP-01</td><td class="nom">Supervisión de Asistencia y Apertura del Personal</td><td class="pue"><span class="pt pt-ger">Gerencia</span></td><td class="due">Karina</td><td class="desc">Verificar al inicio del día quién llegó, a qué hora y que el área esté abriendo según protocolo. Incluye vuelta a bodega y revisión del reloj de checadas.</td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td></tr>
+      <tr><td class="num">SUP-02</td><td class="nom">Recolección de Cortes de Caja</td><td class="pue"><span class="pt pt-sup">Supervisor</span></td><td class="due">Arturo</td><td class="desc">Recoger los sobres físicos de corte de cada cajera al final del turno y entregarlos a Karina. Arturo no abre ni revisa el contenido — solo recolecta y entrega.</td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td></tr>
+      <tr><td class="num">SUP-03</td><td class="nom">Revisión y Validación de Cortes de Caja</td><td class="pue"><span class="pt pt-ger">Gerencia</span></td><td class="due">Karina</td><td class="desc">Abrir los cortes, verificar que el dinero declarado coincida y que estén todos los documentos de transferencias anexos. La conciliación posterior en Excel vive en ADM-01 y ADM-02.</td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td></tr>
+      <tr class="ori-row"><td colspan="6">↳ Inspección de Áreas y Mercancía</td></tr>
+      <tr><td class="num">SUP-04</td><td class="nom">Supervisión de Relleno y Exhibición de Áreas</td><td class="pue"><span class="pt pt-sup">Supervisor</span></td><td class="due">Arturo / Mireles</td><td class="desc">Recorrer las áreas durante la operación y validar que los exhibidores estén surtidos, limpios y con producto en buena calidad. Mireles hace validación formal con evidencia fotográfica cuando se requiere.</td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td></tr>
+      <tr><td class="num">SUP-05</td><td class="nom">Inventario Vespertino de Mercancía</td><td class="pue"><span class="pt pt-sup">Supervisor</span></td><td class="due">Mireles</td><td class="desc">Conteo de existencias aproximadamente a las 4:30 PM para conciliación del día siguiente. No incluye mercancía del rancho que aún no ha sido dada de alta en sistema.</td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td></tr>
+      <tr class="ori-row"><td colspan="6">↳ Sucursal Villarreal</td></tr>
+      <tr><td class="num">SUP-06</td><td class="nom">Supervisión de Asistencia y Puntualidad en Villarreal</td><td class="pue"><span class="pt pt-ger">Gerencia</span></td><td class="due">Karina</td><td class="desc">Revisar fotos del personal de Villas y verificar hora de llegada antes de la visita semanal.<span class="nota-sub">↳ Posible tarea dentro de ADM-15 (Visita Operativa a Villarreal).</span></td><td class="tipo"><span class="badge badge-t">◈ Posible Tarea</span></td></tr>
+      <tr><td class="num">SUP-07</td><td class="nom">Recorrido de Supervisión en Sucursal Villarreal</td><td class="pue"><span class="pt pt-ger">Gerencia</span></td><td class="due">Karina</td><td class="desc">Inspeccionar el estado de la tienda Villarreal contra los cuatro principios de supervisión: cada cosa en su lugar, acomodado, limpio y señalizado. Es parte del flujo de ADM-15.</td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td></tr>
+      <tr class="ori-row"><td colspan="6">↳ Coordinación y Cierre</td></tr>
+      <tr><td class="num">SUP-08</td><td class="nom">Junta Semanal de Supervisores</td><td class="pue"><span class="pt pt-ger">Gerencia</span></td><td class="due">Karina / Francisco I. Cardoso</td><td class="desc">Preparar información, asistir y dar seguimiento a acuerdos de la junta semanal de supervisores.</td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td></tr>
+      <tr><td class="num">SUP-09</td><td class="nom">Cierre, Aseguramiento y Revisión Final del Área</td><td class="pue"><span class="pt pt-sup">Supervisor</span></td><td class="due">Arturo / Mireles</td><td class="desc">Verificar que no queden herramientas o equipo olvidados, cerrar puertas y candados y activar alarma. Arturo cierra el área general; Mireles cierra la bodega de verduras.</td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td></tr>
+    </tbody>
+  </table></div>
+</div>
+
+<!-- ══ PROCESO DE ADMINISTRACIÓN ══ -->
+<div class="proc-sec">
+  <div class="proc-hdr adm" onclick="toggleProc('adm')">
+    <span>📊</span><span class="proc-nombre">Proceso de Administración</span>
+    <span class="proc-desc">— Conciliación documental, control financiero, coordinación de personal e información operativa</span>
+    <span class="proc-cnt">16 entradas</span><span class="proc-toggle">▾</span>
+  </div>
+  <div class="tbl-wrap" id="proc-adm"><table>
+    <thead><tr><th>#</th><th>Nombre de Actividad</th><th>Puesto</th><th>Dueño</th><th>Descripción / Alcance</th><th>Tipo</th></tr></thead>
+    <tbody>
+      <tr class="ori-row"><td colspan="6">↳ Control Bancario y Financiero</td></tr>
+      <tr><td class="num">ADM-01</td><td class="nom">Conciliación de Transferencias Bancarias en Excel</td><td class="pue"><span class="pt pt-ger">Gerencia</span></td><td class="due">Karina</td><td class="desc">Cruzar transferencias recibidas contra registros internos en hoja de Excel para detectar diferencias. Se realiza a mitad del día.</td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td></tr>
+      <tr><td class="num">ADM-02</td><td class="nom">Conciliación de Facturas de Contado y Domicilio</td><td class="pue"><span class="pt pt-ger">Gerencia</span></td><td class="due">Karina</td><td class="desc">Verificar que facturas de contado y domicilio coincidan con los cortes recibidos; alimentar la tabla de cobranza pendiente.</td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td></tr>
+      <tr><td class="num">ADM-03</td><td class="nom">Preparación y Entrega de Depósitos Bancarios</td><td class="pue"><span class="pt pt-ger">Gerencia</span></td><td class="due">Karina</td><td class="desc">Preparar el efectivo, ir al banco a depositar y entregar el comprobante a Jorge. Se da prioridad en días de banco.</td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td></tr>
+      <tr><td class="num">ADM-04</td><td class="nom">Envío Semanal de Cobranza a Clientes Especiales</td><td class="pue"><span class="pt pt-ger">Gerencia</span></td><td class="due">Karina</td><td class="desc">Compilar la cobranza de la semana y enviarla a clientes con condiciones especiales (Pomodoro, Market). Frecuencia: jueves.</td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td></tr>
+      <tr><td class="num">ADM-05</td><td class="nom">Revisión de Cortes Semanales de Villarreal</td><td class="pue"><span class="pt pt-ger">Gerencia</span></td><td class="due">Karina</td><td class="desc">Revisión de los cortes de la sucursal Villarreal. Dos momentos: lunes (cortes semana anterior) y viernes (cortes semana en curso). Mismo proceso, distinto timing.</td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td></tr>
+      <tr class="ori-row"><td colspan="6">↳ Control Documental</td></tr>
+      <tr><td class="num">ADM-06</td><td class="nom">Llenado de Tabla de Actividades Abastos</td><td class="pue"><span class="pt pt-ger">Gerencia</span></td><td class="due">Karina</td><td class="desc">Mantener actualizada la tabla de control de actividades de abastos. Frecuencia diaria — no puede pasarse al viernes.</td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td></tr>
+      <tr><td class="num">ADM-07</td><td class="nom">Llenado de Tabla de Diferencias de Cajeros</td><td class="pue"><span class="pt pt-ger">Gerencia</span></td><td class="due">Karina</td><td class="desc">Registrar las diferencias detectadas en cortes de cajeras en la tabla de control correspondiente. Frecuencia diaria — no puede pasarse al viernes.</td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td></tr>
+      <tr><td class="num">ADM-08</td><td class="nom">Llenado de Tabla de Facturas y Compras de Villas</td><td class="pue"><span class="pt pt-ger">Gerencia</span></td><td class="due">Karina</td><td class="desc">Mantener actualizada la tabla de facturas y compras correspondiente a la sucursal Villarreal.</td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td></tr>
+      <tr><td class="num">ADM-09</td><td class="nom">Control de Aseo de Baños</td><td class="pue"><span class="pt pt-ger">Gerencia</span></td><td class="due">Karina</td><td class="desc">Actualizar la tabla de aseo de baños. Frecuencia mensual — al final de cada mes.<span class="nota-sub">↳ Posible tarea — frecuencia baja.</span></td><td class="tipo"><span class="badge badge-t">◈ Posible Tarea</span></td></tr>
+      <tr><td class="num">ADM-10</td><td class="nom">Actualización de Tableros de Asignación por Área</td><td class="pue"><span class="pt pt-sup">Supervisor</span></td><td class="due">Arturo</td><td class="desc">Cambiar cada día al inicio del turno la tabla física con nombres de personas, áreas asignadas y fecha vigente.</td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td></tr>
+      <tr class="ori-row"><td colspan="6">↳ Coordinación Operativa</td></tr>
+      <tr><td class="num">ADM-11</td><td class="nom">Asignación de Pedidos y Rutas a Choferes</td><td class="pue"><span class="pt pt-ger">Gerencia</span></td><td class="due">Paco Ibarra</td><td class="desc">Asignar pedidos del día a cada chofer y definir la secuencia y ruta de entregas.</td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td></tr>
+      <tr><td class="num">ADM-12</td><td class="nom">Seguimiento de Estatus de Entregas en Ruta</td><td class="pue"><span class="pt pt-ger">Gerencia</span></td><td class="due">Paco Ibarra</td><td class="desc">Monitorear la ubicación y avance de choferes en ruta; contactar clientes para confirmaciones adicionales de pedidos.</td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td></tr>
+      <tr><td class="num">ADM-13</td><td class="nom">Planeación de Pedidos del Día Siguiente</td><td class="pue"><span class="pt pt-ger">Gerencia</span></td><td class="due">Paco Ibarra</td><td class="desc">Al cierre del turno, organizar pedidos pendientes y dejar instrucciones para las entregas del día siguiente.</td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td></tr>
+      <tr class="ori-row"><td colspan="6">↳ Personal y Nómina — Sucursal Villarreal</td></tr>
+      <tr><td class="num">ADM-14</td><td class="nom">Solicitud de Nóminas de Villarreal</td><td class="pue"><span class="pt pt-ger">Gerencia</span></td><td class="due">Karina</td><td class="desc">Solicitar y recoger las nóminas en blanco antes de la visita a Villarreal para que el personal las firme.<span class="nota-sub">↳ Posible tarea — paso 1 de preparación de ADM-15.</span></td><td class="tipo"><span class="badge badge-t">◈ Posible Tarea</span></td></tr>
+      <tr><td class="num">ADM-15</td><td class="nom">Visita Operativa a Sucursal Villarreal</td><td class="pue"><span class="pt pt-ger">Gerencia</span></td><td class="due">Karina</td><td class="desc">Actividad compuesta semanal (viernes). Pasos: (1) preparación — tomar nóminas en blanco, revisar fotos y horarios; (2) recorrido de tienda contra los 4 principios de supervisión; (3) reunión con personal — pendientes y retroalimentación; (4) revisión superficial de cortes; (5) pago de nómina y recabo de firmas; (6) empacar cortes y entregar a gerente para revisión exhaustiva en abastos.</td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td></tr>
+      <tr><td class="num">ADM-16</td><td class="nom">Apertura y Revisión de Sistemas AdminPAQ / VentPAQ</td><td class="pue"><span class="pt pt-ger">Gerencia</span></td><td class="due">Paco Ibarra</td><td class="desc">Verificar al inicio del turno que AdminPAQ y VentPAQ estén operando correctamente. Paso previo a cualquier operación del día.<span class="nota-sub">↳ Ver también VTA-12 — puede consolidarse.</span></td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td></tr>
+    </tbody>
+  </table></div>
+</div>
+
+<!-- ══ PROCESO DE AUDITORÍAS ══ -->
+<div class="proc-sec">
+  <div class="proc-hdr aud" onclick="toggleProc('aud')">
+    <span>📋</span><span class="proc-nombre">Proceso de Auditorías (AUD)</span>
+    <span class="proc-desc">— Evaluación formal y periódica del cumplimiento de estándares — proceso reservado</span>
+    <span class="proc-cnt">2 entradas</span><span class="proc-toggle">▾</span>
+  </div>
+  <div class="tbl-wrap" id="proc-aud">
+    <div class="aud-reservado" style="border-radius:0;border-left:none;border-right:none;border-top:none;margin:0;">
+      <strong>Proceso de Auditorías — en preparación.</strong><br>
+      La cadena de auditoría definida es: Francisco I. Cardoso audita supervisores → supervisores auditan operadores. AUD-01 se activará con el primer ciclo de auditorías sobre COB-01. AUD-02 queda reservado hasta que se diseñe el flujo de seguimiento de hallazgos.
+    </div>
+    <table>
+    <thead><tr><th>#</th><th>Nombre de Actividad</th><th>Puesto</th><th>Descripción / Alcance</th><th>Tipo</th></tr></thead>
+    <tbody>
+      <tr><td class="num">AUD-01</td><td class="nom">Ejecución de Auditoría de Proceso</td><td class="pue"><span class="pt pt-sup">Supervisor</span> <span class="pt pt-ger">Gerencia</span></td><td class="desc">Flujo completo en una sola sesión: consultar la recomendación del sistema y seleccionar el estándar con mayor tiempo sin auditar → registrar al operador por nombre o código de barras → ejecutar el checklist observando al operador paso a paso → capturar evidencia fotográfica si aplica → registrar observaciones finales (retroalimentación dada, recomendación de capacitación adicional, mejoras detectadas al estándar) → cerrar y enviar la auditoría.</td><td class="tipo"><span class="badge badge-a">⬡ Actividad</span></td></tr>
+      <tr><td class="num">AUD-02</td><td class="nom">Seguimiento de Hallazgos de Auditoría</td><td class="pue"><span class="pt pt-sup">Supervisor</span> <span class="pt pt-ger">Gerencia</span></td><td class="desc">Verificar en ciclos posteriores que los hallazgos y recomendaciones registradas en auditorías anteriores fueron atendidos. Flujo a definir cuando se establezca la cadencia regular de auditorías.<span class="nota-res">↳ Reservado — pendiente de diseño del flujo de seguimiento.</span></td><td class="tipo"><span class="badge badge-r">◉ Reservado</span></td></tr>
+    </tbody>
+  </table></div>
+</div>
+
+</div><!-- /tab-catalogo -->
+
+<!-- ══════════════ TAB 2: MATRIZ ══════════════ -->
+<div id="tab-matriz" class="panel">
+<div style="margin-bottom:16px;padding:14px 18px;background:#fff;border:1px solid var(--borde);border-radius:8px;font-size:12px;color:var(--gris-med);line-height:1.8;">
+  <strong style="color:var(--gris-text);">Cómo leer esta matriz:</strong>
+  &nbsp;●&nbsp;= Responsable principal &nbsp; ◐&nbsp;= Apoyo / participa &nbsp; —&nbsp;= No aplica.<br>
+  Fondo amarillo = actividad top votada en su área.
+</div>
+<div class="matriz-wrap">
+<table class="mtz">
+  <thead>
+    <tr>
+      <th class="proc-col">Actividad</th>
+      <th>Cajera</th><th>Piso</th><th>Chofer</th><th>Supervisor</th><th>Gerencia</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="proc-grp"><td colspan="6">💰 COBRO</td></tr>
+    <tr class="top"><td class="act-nom">COB-01 Cobro en Punto de Venta</td><td class="cell-p">●</td><td class="cell-n">—</td><td class="cell-n">—</td><td class="cell-n">—</td><td class="cell-n">—</td></tr>
+    <tr class="top"><td class="act-nom">COB-02 Corte de Caja</td><td class="cell-p">●</td><td class="cell-n">—</td><td class="cell-n">—</td><td class="cell-n">—</td><td class="cell-n">—</td></tr>
+    <tr class="top"><td class="act-nom">COB-03 Facturación al Cliente</td><td class="cell-p">●</td><td class="cell-n">—</td><td class="cell-n">—</td><td class="cell-n">—</td><td class="cell-n">—</td></tr>
+    <tr class="top"><td class="act-nom">COB-04 Apertura de Caja</td><td class="cell-p">●</td><td class="cell-n">—</td><td class="cell-n">—</td><td class="cell-n">—</td><td class="cell-n">—</td></tr>
+    <tr><td class="act-nom">COB-05 Recepción de Cobranza de Choferes</td><td class="cell-p">●</td><td class="cell-n">—</td><td class="cell-s">◐</td><td class="cell-n">—</td><td class="cell-n">—</td></tr>
+    <tr><td class="act-nom">COB-07 a COB-11 (otras actividades de caja)</td><td class="cell-p">●</td><td class="cell-n">—</td><td class="cell-n">—</td><td class="cell-n">—</td><td class="cell-n">—</td></tr>
+
+    <tr class="proc-grp"><td colspan="6">🧾 SOPORTE A CAJA</td></tr>
+    <tr class="top"><td class="act-nom">SCA-01 Revisión y Registro de Pedidos a Domicilio</td><td class="cell-p">●</td><td class="cell-n">—</td><td class="cell-n">—</td><td class="cell-n">—</td><td class="cell-n">—</td></tr>
+    <tr><td class="act-nom">SCA-02 a SCA-04</td><td class="cell-p">●</td><td class="cell-s">◐</td><td class="cell-n">—</td><td class="cell-n">—</td><td class="cell-n">—</td></tr>
+    <tr class="top"><td class="act-nom">SCA-05 Actualización de Precios en Sistema</td><td class="cell-p">●</td><td class="cell-n">—</td><td class="cell-n">—</td><td class="cell-n">—</td><td class="cell-s">◐</td></tr>
+
+    <tr class="proc-grp"><td colspan="6">🏦 PAGO A PROVEEDORES</td></tr>
+    <tr class="top"><td class="act-nom">PAG-01 Realización de Contrarrecibos</td><td class="cell-p">●</td><td class="cell-n">—</td><td class="cell-n">—</td><td class="cell-n">—</td><td class="cell-n">—</td></tr>
+    <tr><td class="act-nom">PAG-02 a PAG-18 (gestión documental y pagos)</td><td class="cell-p">●</td><td class="cell-n">—</td><td class="cell-n">—</td><td class="cell-n">—</td><td class="cell-n">—</td></tr>
+
+    <tr class="proc-grp"><td colspan="6">🛒 VENTA</td></tr>
+    <tr><td class="act-nom">VTA-11 a VTA-16 (sistemas y operación interna)</td><td class="cell-n">—</td><td class="cell-n">—</td><td class="cell-n">—</td><td class="cell-n">—</td><td class="cell-p">●</td></tr>
+    <tr class="top"><td class="act-nom">VTA-01 Atención al Cliente en Piso</td><td class="cell-n">—</td><td class="cell-p">●</td><td class="cell-n">—</td><td class="cell-s">◐</td><td class="cell-n">—</td></tr>
+    <tr class="top"><td class="act-nom">VTA-02/06 Preparación de Pedido</td><td class="cell-n">—</td><td class="cell-p">●</td><td class="cell-p">●</td><td class="cell-n">—</td><td class="cell-n">—</td></tr>
+    <tr><td class="act-nom">VTA-07 Entrega de Pedido al Cliente</td><td class="cell-n">—</td><td class="cell-n">—</td><td class="cell-p">●</td><td class="cell-n">—</td><td class="cell-n">—</td></tr>
+    <tr><td class="act-nom">VTA-08 a VTA-10 (ruta)</td><td class="cell-s">◐</td><td class="cell-s">◐</td><td class="cell-p">●</td><td class="cell-n">—</td><td class="cell-s">◐</td></tr>
+
+    <tr class="proc-grp"><td colspan="6">📦 MERCANCÍAS</td></tr>
+    <tr><td class="act-nom">MER-11 a MER-12 (registro en sistema)</td><td class="cell-n">—</td><td class="cell-n">—</td><td class="cell-n">—</td><td class="cell-n">—</td><td class="cell-p">●</td></tr>
+    <tr class="top"><td class="act-nom">MER-03 Reposición, Rotación y Acomodo de Exhibidores</td><td class="cell-n">—</td><td class="cell-p">●</td><td class="cell-n">—</td><td class="cell-s">◐</td><td class="cell-n">—</td></tr>
+    <tr><td class="act-nom">MER-04 a MER-10 (exhibición y calidad)</td><td class="cell-s">◐</td><td class="cell-p">●</td><td class="cell-s">◐</td><td class="cell-n">—</td><td class="cell-n">—</td></tr>
+
+    <tr class="proc-grp"><td colspan="6">🔧 SOPORTE EN OPERACIÓN</td></tr>
+    <tr class="top"><td class="act-nom">SOP-01 Apertura y Revisión del Vehículo</td><td class="cell-n">—</td><td class="cell-n">—</td><td class="cell-p">●</td><td class="cell-n">—</td><td class="cell-n">—</td></tr>
+    <tr><td class="act-nom">SOP-02 Compras de Gastos Generales</td><td class="cell-n">—</td><td class="cell-n">—</td><td class="cell-p">●</td><td class="cell-n">—</td><td class="cell-s">◐</td></tr>
+    <tr><td class="act-nom">SOP-03 a SOP-06 (limpieza y cierre)</td><td class="cell-s">◐</td><td class="cell-p">●</td><td class="cell-p">●</td><td class="cell-s">◐</td><td class="cell-n">—</td></tr>
+
+    <tr class="proc-grp"><td colspan="6">🧺 COMPRAS</td></tr>
+    <tr><td class="act-nom">COM-01 Monitoreo de Precios y Oferta en Mercado</td><td class="cell-n">—</td><td class="cell-n">—</td><td class="cell-n">—</td><td class="cell-p">●</td><td class="cell-n">—</td></tr>
+    <tr><td class="act-nom">COM-02 Recepción y Turno de Cotización Abarrotes</td><td class="cell-n">—</td><td class="cell-n">—</td><td class="cell-n">—</td><td class="cell-n">—</td><td class="cell-p">●</td></tr>
+    <tr><td class="act-nom">COM-04 Instrucción de Compra de Producto Fresco</td><td class="cell-n">—</td><td class="cell-n">—</td><td class="cell-n">—</td><td class="cell-p">●</td><td class="cell-n">—</td></tr>
+    <tr><td class="act-nom">COM-05 Generación de Pedido de Abarrotes</td><td class="cell-p">●</td><td class="cell-n">—</td><td class="cell-n">—</td><td class="cell-n">—</td><td class="cell-s">◐</td></tr>
+    <tr><td class="act-nom">COM-06 Pedido Diario al Rancho</td><td class="cell-n">—</td><td class="cell-n">—</td><td class="cell-n">—</td><td class="cell-p">●</td><td class="cell-n">—</td></tr>
+    <tr><td class="act-nom">COM-07 Recepción e Inspección de Mercancía de Proveedor</td><td class="cell-n">—</td><td class="cell-n">—</td><td class="cell-n">—</td><td class="cell-p">●</td><td class="cell-n">—</td></tr>
+    <tr><td class="act-nom">COM-08 Generación de Entrada de Mercancías en Sistema</td><td class="cell-n">—</td><td class="cell-n">—</td><td class="cell-n">—</td><td class="cell-p">●</td><td class="cell-n">—</td></tr>
+    <tr><td class="act-nom">COM-09 Recolección de Mercancía en Rancho</td><td class="cell-n">—</td><td class="cell-n">—</td><td class="cell-p">●</td><td class="cell-n">—</td><td class="cell-n">—</td></tr>
+    <tr><td class="act-nom">COM-10 Recepción y Registro Físico — Rancho</td><td class="cell-n">—</td><td class="cell-n">—</td><td class="cell-s">◐</td><td class="cell-p">●</td><td class="cell-n">—</td></tr>
+    <tr><td class="act-nom">COM-11 Alta de Entrada del Rancho en Sistema</td><td class="cell-n">—</td><td class="cell-n">—</td><td class="cell-n">—</td><td class="cell-p">●</td><td class="cell-n">—</td></tr>
+    <tr><td class="act-nom">COM-12 Gestión de Excedente de Producto de Rancho</td><td class="cell-n">—</td><td class="cell-n">—</td><td class="cell-n">—</td><td class="cell-p">●</td><td class="cell-n">—</td></tr>
+
+    <tr class="proc-grp"><td colspan="6">🛡️ SUPERVISIÓN</td></tr>
+    <tr><td class="act-nom">SUP-01 Supervisión de Asistencia y Apertura</td><td class="cell-n">—</td><td class="cell-n">—</td><td class="cell-n">—</td><td class="cell-n">—</td><td class="cell-p">●</td></tr>
+    <tr><td class="act-nom">SUP-02 Recolección de Cortes de Caja</td><td class="cell-n">—</td><td class="cell-n">—</td><td class="cell-n">—</td><td class="cell-p">●</td><td class="cell-n">—</td></tr>
+    <tr><td class="act-nom">SUP-03 Revisión y Validación de Cortes de Caja</td><td class="cell-n">—</td><td class="cell-n">—</td><td class="cell-n">—</td><td class="cell-n">—</td><td class="cell-p">●</td></tr>
+    <tr><td class="act-nom">SUP-04 Supervisión de Relleno y Exhibición</td><td class="cell-n">—</td><td class="cell-n">—</td><td class="cell-n">—</td><td class="cell-p">●</td><td class="cell-n">—</td></tr>
+    <tr><td class="act-nom">SUP-05 Inventario Vespertino de Mercancía</td><td class="cell-n">—</td><td class="cell-n">—</td><td class="cell-n">—</td><td class="cell-p">●</td><td class="cell-n">—</td></tr>
+    <tr><td class="act-nom">SUP-07 Recorrido de Supervisión en Villarreal</td><td class="cell-n">—</td><td class="cell-n">—</td><td class="cell-n">—</td><td class="cell-n">—</td><td class="cell-p">●</td></tr>
+    <tr><td class="act-nom">SUP-08 Junta Semanal de Supervisores</td><td class="cell-n">—</td><td class="cell-n">—</td><td class="cell-n">—</td><td class="cell-s">◐</td><td class="cell-p">●</td></tr>
+    <tr><td class="act-nom">SUP-09 Cierre, Aseguramiento y Revisión Final</td><td class="cell-n">—</td><td class="cell-n">—</td><td class="cell-n">—</td><td class="cell-p">●</td><td class="cell-n">—</td></tr>
+
+    <tr class="proc-grp"><td colspan="6">📊 ADMINISTRACIÓN</td></tr>
+    <tr><td class="act-nom">ADM-01 a ADM-09 (control bancario y documental)</td><td class="cell-n">—</td><td class="cell-n">—</td><td class="cell-n">—</td><td class="cell-n">—</td><td class="cell-p">●</td></tr>
+    <tr><td class="act-nom">ADM-10 Actualización de Tableros por Área</td><td class="cell-n">—</td><td class="cell-n">—</td><td class="cell-n">—</td><td class="cell-p">●</td><td class="cell-n">—</td></tr>
+    <tr><td class="act-nom">ADM-11 a ADM-13 (coordinación operativa)</td><td class="cell-n">—</td><td class="cell-n">—</td><td class="cell-n">—</td><td class="cell-n">—</td><td class="cell-p">●</td></tr>
+    <tr><td class="act-nom">ADM-14 a ADM-16 (Villarreal y sistemas)</td><td class="cell-n">—</td><td class="cell-n">—</td><td class="cell-n">—</td><td class="cell-n">—</td><td class="cell-p">●</td></tr>
+
+    <tr class="proc-grp"><td colspan="6">📋 AUDITORÍAS (reservado)</td></tr>
+    <tr><td class="act-nom">AUD-01 a AUD-04</td><td class="cell-n">—</td><td class="cell-n">—</td><td class="cell-n">—</td><td class="cell-s">◐</td><td class="cell-p">●</td></tr>
+  </tbody>
+</table>
+</div>
+</div><!-- /tab-matriz -->
+
+<!-- ══════════════ TAB 3: PRIORIDADES ══════════════ -->
+<div id="tab-prioridades" class="panel">
+
+<div class="res-grid">
+  <div class="rc"><div class="n" style="color:var(--cobro);">10</div><div class="l">Proceso de Cobro</div></div>
+  <div class="rc"><div class="n" style="color:var(--scaja);">5</div><div class="l">Soporte a Caja</div></div>
+  <div class="rc"><div class="n" style="color:var(--pago);">18</div><div class="l">Pago a Proveedores</div></div>
+  <div class="rc"><div class="n" style="color:var(--venta);">16</div><div class="l">Venta y Pedidos</div></div>
+  <div class="rc"><div class="n" style="color:var(--mer);">10</div><div class="l">Mercancías</div></div>
+  <div class="rc"><div class="n" style="color:var(--sop);">6</div><div class="l">Soporte Operación</div></div>
+  <div class="rc"><div class="n" style="color:var(--com);">12</div><div class="l">Compras</div></div>
+  <div class="rc"><div class="n" style="color:var(--sup);">9</div><div class="l">Supervisión</div></div>
+  <div class="rc"><div class="n" style="color:var(--adm);">16</div><div class="l">Administración</div></div>
+  <div class="rc"><div class="n" style="color:var(--aud);">4</div><div class="l">Auditorías (res.)</div></div>
+</div>
+
+<div class="prioridades-grid">
+  <div class="prio-card">
+    <div class="prio-card-hdr" style="background:var(--cobro);">💰 Cobro — Prioridades</div>
+    <div class="prio-item"><span class="prio-rank">#1</span><span style="flex:1;font-weight:600;">COB-01 Cobro en Punto de Venta</span><span class="prio-stars">★★★★★</span></div>
+    <div class="prio-item"><span class="prio-rank">#2</span><span style="flex:1;font-weight:600;">COB-02 Corte de Caja</span><span class="prio-stars">★★★★</span></div>
+    <div class="prio-item"><span class="prio-rank">#3</span><span style="flex:1;">COB-03 Facturación al Cliente</span><span class="prio-stars">★★★</span></div>
+    <div class="prio-item"><span class="prio-rank">#3</span><span style="flex:1;">COB-04 Apertura de Caja</span><span class="prio-stars">★★★</span></div>
+  </div>
+  <div class="prio-card">
+    <div class="prio-card-hdr" style="background:var(--pago);">🏦 Pago a Proveedores — Prioridades</div>
+    <div class="prio-item"><span class="prio-rank">#1</span><span style="flex:1;font-weight:600;">PAG-01 Contrarrecibos</span><span class="prio-stars">★★★★★★</span></div>
+    <div class="prio-item"><span class="prio-rank">#2</span><span style="flex:1;font-weight:600;">PAG-13 Pago en Efectivo</span><span class="prio-stars">★★★★★</span></div>
+    <div class="prio-item"><span class="prio-rank">#2</span><span style="flex:1;">PAG-04 Descarga XML</span><span class="prio-stars">★★★★★</span></div>
+    <div class="prio-item"><span class="prio-rank">#2</span><span style="flex:1;">PAG-07 Captura Transferencias</span><span class="prio-stars">★★★★★</span></div>
+    <div class="prio-item"><span class="prio-rank">#5</span><span style="flex:1;">PAG-06, PAG-08, PAG-14</span><span class="prio-stars">★★★★</span></div>
+  </div>
+  <div class="prio-card">
+    <div class="prio-card-hdr" style="background:var(--venta);">🛒 Venta — Prioridades Piso</div>
+    <div class="prio-item"><span class="prio-rank">#1</span><span style="flex:1;font-weight:600;">VTA-01 Atención al Cliente</span><span class="prio-stars">★★★★★</span></div>
+    <div class="prio-item"><span class="prio-rank">#3</span><span style="flex:1;font-weight:600;">VTA-02 Preparación de Pedido</span><span class="prio-stars">★★★★</span></div>
+  </div>
+  <div class="prio-card">
+    <div class="prio-card-hdr" style="background:#1e5799;">🚚 Venta — Prioridades Chofer</div>
+    <div class="prio-item"><span class="prio-rank">#1</span><span style="flex:1;font-weight:600;">VTA-06 Preparación de Pedido</span><span class="prio-stars">★★★★★</span></div>
+    <div class="prio-item"><span class="prio-rank">#3</span><span style="flex:1;">VTA-07 Entrega al Cliente</span><span class="prio-stars">★★★★</span></div>
+    <div class="prio-item"><span class="prio-rank">#4</span><span style="flex:1;">VTA-10 Cobranza en Ruta</span><span class="prio-stars">★★★★</span></div>
+    <div class="prio-item"><span class="prio-rank">#5</span><span style="flex:1;">VTA-08 Transportación</span><span class="prio-stars">★★★</span></div>
+  </div>
+  <div class="prio-card">
+    <div class="prio-card-hdr" style="background:var(--mer);">📦 Mercancías — Prioridades</div>
+    <div class="prio-item"><span class="prio-rank">#2</span><span style="flex:1;font-weight:600;">MER-03 Reposición de Exhibidores</span><span class="prio-stars">★★★★</span></div>
+    <div class="prio-item"><span class="prio-rank" style="font-size:9px;">—</span><span style="flex:1;color:var(--gris-med);">MER-11 a MER-12 — sin votos aún</span><span class="prio-stars"></span></div>
+  </div>
+  <div class="prio-card">
+    <div class="prio-card-hdr" style="background:var(--com);">🧺 Compras — Sin votos (nuevo proceso)</div>
+    <div class="prio-item"><span class="prio-rank">—</span><span style="flex:1;color:var(--gris-med);">COM-07 Recepción e Inspección (candidata)</span><span class="prio-stars"></span></div>
+    <div class="prio-item"><span class="prio-rank">—</span><span style="flex:1;color:var(--gris-med);">COM-04 Instrucción de Compra (candidata)</span><span class="prio-stars"></span></div>
+    <div style="padding:8px 16px;font-size:10.5px;color:var(--gris-med);border-top:1px solid #f1f3f5;">⚠️ Proceso nuevo — pendiente de taller de votación.</div>
+  </div>
+  <div class="prio-card">
+    <div class="prio-card-hdr" style="background:var(--sup);">🛡️ Supervisión — Sin votos (nuevo proceso)</div>
+    <div class="prio-item"><span class="prio-rank">—</span><span style="flex:1;color:var(--gris-med);">SUP-03 Validación de Cortes (candidata)</span><span class="prio-stars"></span></div>
+    <div class="prio-item"><span class="prio-rank">—</span><span style="flex:1;color:var(--gris-med);">SUP-04 Supervisión de Relleno (candidata)</span><span class="prio-stars"></span></div>
+    <div style="padding:8px 16px;font-size:10.5px;color:var(--gris-med);border-top:1px solid #f1f3f5;">⚠️ Proceso nuevo — pendiente de taller de votación.</div>
+  </div>
+  <div class="prio-card">
+    <div class="prio-card-hdr" style="background:var(--adm);">📊 Administración — Sin votos (nuevo proceso)</div>
+    <div class="prio-item"><span class="prio-rank">—</span><span style="flex:1;color:var(--gris-med);">ADM-15 Visita Operativa Villarreal (candidata)</span><span class="prio-stars"></span></div>
+    <div class="prio-item"><span class="prio-rank">—</span><span style="flex:1;color:var(--gris-med);">ADM-11 Asignación de Pedidos y Rutas (candidata)</span><span class="prio-stars"></span></div>
+    <div style="padding:8px 16px;font-size:10.5px;color:var(--gris-med);border-top:1px solid #f1f3f5;">⚠️ Proceso nuevo — pendiente de taller de votación.</div>
+  </div>
+</div>
+
+<div style="margin-top:24px;background:#fff;border:1px solid var(--borde);border-radius:8px;padding:20px 24px;">
+  <div style="font-size:13px;font-weight:700;margin-bottom:14px;color:var(--gris-text);">🗺️ Ruta sugerida para crear Estándares de Trabajo</div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;font-size:12px;">
+    <div style="background:var(--cobro-bg);border:1px solid var(--cobro-bd);border-radius:6px;padding:12px 14px;">
+      <div style="font-weight:700;color:var(--cobro);margin-bottom:6px;">En curso — Ciclo 1</div>
+      COB-01 Cobro en Punto de Venta<br><span style="color:var(--gris-med);">Primer ciclo de auditorías activo</span>
+    </div>
+    <div style="background:var(--venta-bg);border:1px solid var(--venta-bd);border-radius:6px;padding:12px 14px;">
+      <div style="font-weight:700;color:var(--venta);margin-bottom:6px;">Ciclo 2</div>
+      VTA-02/06 Preparación de Pedido<br><span style="color:var(--gris-med);">+ SOP-01 Apertura de Vehículo</span>
+    </div>
+    <div style="background:var(--mer-bg);border:1px solid var(--mer-bd);border-radius:6px;padding:12px 14px;">
+      <div style="font-weight:700;color:var(--mer);margin-bottom:6px;">Ciclo 3</div>
+      MER-03 Reposición de Exhibidores<br><span style="color:var(--gris-med);">+ COB-02 Corte de Caja</span>
+    </div>
+    <div style="background:var(--pago-bg);border:1px solid var(--pago-bd);border-radius:6px;padding:12px 14px;">
+      <div style="font-weight:700;color:var(--pago);margin-bottom:6px;">En paralelo — Pagos</div>
+      PAG-01 Contrarrecibos<br><span style="color:var(--gris-med);">+ PAG-13 Pago en Efectivo</span>
+    </div>
+    <div style="background:var(--com-bg);border:1px solid var(--com-bd);border-radius:6px;padding:12px 14px;">
+      <div style="font-weight:700;color:var(--com);margin-bottom:6px;">Futuro — Compras</div>
+      COM-07 Recepción e Inspección<br><span style="color:var(--gris-med);">+ COM-04 Instrucción de Compra</span>
+    </div>
+    <div style="background:var(--sup-bg);border:1px solid var(--sup-bd);border-radius:6px;padding:12px 14px;">
+      <div style="font-weight:700;color:var(--sup);margin-bottom:6px;">Futuro — Supervisión</div>
+      SUP-03 Validación de Cortes<br><span style="color:var(--gris-med);">+ SUP-04 Supervisión de Relleno</span>
+    </div>
+  </div>
+</div>
+
+</div><!-- /tab-prioridades -->
+
+<!-- ══════════════ TAB 4: HISTORIAL ══════════════ -->
+<div id="tab-historial" class="panel">
+
+<div class="hist-section-hdr">📜 Historial de versiones — Catálogo de Actividades</div>
+<table class="hist-table" style="border-radius:0 0 8px 8px;border-top:none;">
+  <thead>
+    <tr>
+      <th style="width:80px;">Versión</th>
+      <th style="width:95px;">Fecha</th>
+      <th style="width:80px;">Tipo</th>
+      <th>Descripción del cambio</th>
+      <th style="width:140px;">Autor</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><span class="ver-pill mayor">4.0</span></td>
+      <td>May/2026</td>
+      <td><span class="hist-tipo mayor">Mayor</span></td>
+      <td>
+        <strong>Incorporación de cuatro procesos nuevos y expansión a nivel gerencial y supervisor.</strong> Se agregan: <strong>COM — Compras</strong> (12 entradas: prospección, cotización, generación de pedido, recepción de proveedores externos y abastecimiento desde rancho, incluyendo gestión de excedente); <strong>SUP — Supervisión</strong> (9 entradas: control de personal, inspección de áreas, sucursal Villarreal y cierre — incluye nota de cultura con los 4 principios de supervisión de área); <strong>ADM — Administración</strong> (16 entradas: control bancario y financiero, control documental, coordinación operativa, personal y nómina); <strong>AUD — Auditorías</strong> (4 entradas reservadas, sin activar, para cuando inicie el ciclo formal de auditorías). Se incorporan 5 actividades nuevas al proceso VTA (VTA-11 a VTA-16) y 2 al proceso MER (MER-11, MER-12) derivadas de las actividades de Paco Ibarra. MER-01 y MER-02 migran a COM-09 y COM-10/COM-11 respectivamente. La matriz Puesto × Actividad se expande con dos columnas nuevas: Supervisor y Gerencia. Total: 10 procesos, ~102 entradas. Salto a versión mayor justificado por: (1) incorporación de 4 procesos nuevos, (2) migración de actividades entre procesos, (3) expansión del alcance del catálogo a nivel gerencial y supervisor por primera vez.
+      </td>
+      <td>Francisco I. Cardoso</td>
+    </tr>
+    <tr>
+      <td><span class="ver-pill menor">3.2</span></td>
+      <td>13/Abr/2026</td>
+      <td><span class="hist-tipo menor">Menor</span></td>
+      <td><strong>Historial de cambios activado.</strong> Se agrega TAB dedicado de historial con registro completo de todas las versiones desde su primera emisión. Se decide no embeber estándares en el catálogo para mantener el archivo ligero. Archivo descargable: <code>catalogo_actividades_v3.2.html</code>.</td>
+      <td>Francisco I. Cardoso</td>
+    </tr>
+    <tr>
+      <td><span class="ver-pill menor">3.1</span></td>
+      <td>11/Abr/2026</td>
+      <td><span class="hist-tipo menor">Menor</span></td>
+      <td><strong>Integración del Proceso de Pago a Proveedores.</strong> Se incorporan 18 actividades (PAG-01 a PAG-18) organizadas en 5 subgrupos, derivadas del taller con Jackie y Alejandra. Se elimina COB-06 (duplicado de PAG-13). Actividades priorizadas: PAG-01 Contrarrecibos (#1 con 6 votos), PAG-13 Pago en Efectivo (5 votos, riesgo financiero alto).</td>
+      <td>Francisco I. Cardoso</td>
+    </tr>
+    <tr>
+      <td><span class="ver-pill mayor">3.0</span></td>
+      <td>Abr/2026</td>
+      <td><span class="hist-tipo mayor">Mayor</span></td>
+      <td><strong>Reestructuración completa del catálogo.</strong> Se consolidan todos los procesos: Cobro (COB), Soporte a Caja (SCA), Venta/Pedidos (VTA), Mercancías (MER) y Soporte en Operación (SOP). Se añade acordeón interactivo, Matriz Puesto × Actividad, tab de Prioridades con votos del equipo. Separación formal entre Actividades (⬡) y Posibles Tareas (◈).</td>
+      <td>Francisco I. Cardoso</td>
+    </tr>
+    <tr>
+      <td><span class="ver-pill mayor">2.0</span></td>
+      <td>Mar/2026</td>
+      <td><span class="hist-tipo mayor">Mayor</span></td>
+      <td><strong>Expansión de procesos.</strong> Se integran Venta/Pedidos y Mercancías. Se añade columna de votos para priorización. Se distinguen formalmente actividades de tareas. Resultado del segundo ciclo de trabajo con el equipo de piso y choferes.</td>
+      <td>Francisco I. Cardoso</td>
+    </tr>
+    <tr>
+      <td><span class="ver-pill mayor">1.0</span></td>
+      <td>Mar/2026</td>
+      <td><span class="hist-tipo mayor">Mayor</span></td>
+      <td><strong>Emisión inicial del catálogo.</strong> Primera versión a partir de la lluvia de ideas con el equipo de cajeras. Procesos documentados: Cobro (COB) y Soporte a Caja (SCA) únicamente. Base de la metodología Toyota: catálogo → estándares → auditorías → capacitación.</td>
+      <td>Francisco I. Cardoso</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="hist-section-hdr" style="margin-top:28px;">📋 Registro de estándares generados</div>
+<table class="hist-table" style="border-radius:0 0 8px 8px;border-top:none;">
+  <thead>
+    <tr>
+      <th style="width:80px;">Código</th>
+      <th>Nombre del estándar</th>
+      <th style="width:80px;">Versión</th>
+      <th style="width:95px;">Fecha</th>
+      <th style="width:140px;">Dueño del proceso</th>
+      <th style="width:90px;">Estado</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;font-weight:700;background:var(--cobro-bg);color:var(--cobro);padding:2px 7px;border-radius:4px;">COB-01</span></td>
+      <td>Cobro en Punto de Venta</td>
+      <td><span class="ver-pill menor">1.6</span></td>
+      <td>May/2026</td>
+      <td>Jackeline / Lizbeth</td>
+      <td><span style="font-size:10px;font-weight:700;background:#d1fae5;color:#065f46;padding:2px 8px;border-radius:10px;">Activo</span></td>
+    </tr>
+    <tr>
+      <td><span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;font-weight:700;background:var(--venta-bg);color:var(--venta);padding:2px 7px;border-radius:4px;">VTA-01</span></td>
+      <td>Atención al Cliente en Piso</td>
+      <td><span class="ver-pill menor">1.1</span></td>
+      <td>May/2026</td>
+      <td>Guillermo / Arturo</td>
+      <td><span style="font-size:10px;font-weight:700;background:#d1fae5;color:#065f46;padding:2px 8px;border-radius:10px;">Activo</span></td>
+    </tr>
+    <tr>
+      <td><span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;font-weight:700;background:var(--venta-bg);color:var(--venta);padding:2px 7px;border-radius:4px;">VTA-02</span></td>
+      <td>Preparación de Pedido</td>
+      <td><span class="ver-pill menor">3.4</span></td>
+      <td>May/2026</td>
+      <td>Francisco Ibarra</td>
+      <td><span style="font-size:10px;font-weight:700;background:#d1fae5;color:#065f46;padding:2px 8px;border-radius:10px;">Activo</span></td>
+    </tr>
+    <tr>
+      <td><span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;font-weight:700;background:var(--pago-bg);color:var(--pago);padding:2px 7px;border-radius:4px;">PAG-01</span></td>
+      <td>Realización de Contrarrecibos</td>
+      <td><span class="ver-pill menor">4.1</span></td>
+      <td>May/2026</td>
+      <td>Jackie / Alejandra</td>
+      <td><span style="font-size:10px;font-weight:700;background:#d1fae5;color:#065f46;padding:2px 8px;border-radius:10px;">Activo</span></td>
+    </tr>
+    <tr>
+      <td><span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;font-weight:700;background:var(--pago-bg);color:var(--pago);padding:2px 7px;border-radius:4px;">PAG-13</span></td>
+      <td>Pago de Proveedores en Efectivo</td>
+      <td><span class="ver-pill menor">1.3</span></td>
+      <td>May/2026</td>
+      <td>Cajera de turno</td>
+      <td><span style="font-size:10px;font-weight:700;background:#d1fae5;color:#065f46;padding:2px 8px;border-radius:10px;">Activo</span></td>
+    </tr>
+    <tr>
+      <td><span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;font-weight:700;background:var(--mer-bg);color:var(--mer);padding:2px 7px;border-radius:4px;">MER-03</span></td>
+      <td>Relleno de Exhibidores de Vitrina Lineal</td>
+      <td><span class="ver-pill menor">1.1</span></td>
+      <td>May/2026</td>
+      <td>Jesús / Guillermo</td>
+      <td><span style="font-size:10px;font-weight:700;background:#d1fae5;color:#065f46;padding:2px 8px;border-radius:10px;">Activo</span></td>
+    </tr>
+    <tr>
+      <td><span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;font-weight:700;background:var(--cobro-bg);color:var(--cobro);padding:2px 7px;border-radius:4px;">COB-03</span></td>
+      <td>Facturación al Cliente</td>
+      <td><span class="ver-pill menor">1.0</span></td>
+      <td>May/2026</td>
+      <td>Cajera de turno</td>
+      <td><span style="font-size:10px;font-weight:700;background:#d1fae5;color:#065f46;padding:2px 8px;border-radius:10px;">Activo</span></td>
+    </tr>
+  </tbody>
+</table>
+
+<div style="margin-top:20px;padding:14px 18px;background:#f8f9fb;border:1px solid var(--borde);border-radius:8px;font-size:11.5px;color:var(--gris-med);line-height:1.9;">
+  <strong style="color:var(--gris-text);">Convención de versionado del catálogo:</strong><br>
+  · <strong>Versión mayor</strong> (3.0 → 4.0): incorporación de procesos nuevos, migraciones de actividades entre procesos, o cambio de alcance significativo del catálogo.<br>
+  · <strong>Versión menor</strong> (3.1 → 3.2): correcciones, ajustes, adición de actividades dentro de procesos existentes sin reorganización.<br>
+  · El nombre del archivo descargable siempre refleja la versión actual: <code>catalogo_actividades_v4.4.html</code>
+</div>
+
+</div><!-- /tab-historial -->
+
+</div><!-- /main -->
+
+<script>
+const EDGE_URL = 'https://snlswwdzxechvjjyduyj.supabase.co/functions/v1/catalogo-estandares';
+
+const PROCS = ['cobro','scaja','pago','venta','mer','sop','com','sup','adm','aud'];
+
+// Cache de blob URLs por código — evita re-descargar el mismo estándar
+const blobCache = {};
+
+function showTab(name, event) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  if (event && event.target) event.target.classList.add('active');
+}
+
+function toggleProc(id) {
+  const wrap = document.getElementById('proc-'+id);
+  const hdr  = wrap.previousElementSibling;
+  const isHidden = wrap.classList.contains('hidden');
+  wrap.classList.toggle('hidden', !isHidden);
+  hdr.classList.toggle('collapsed', !isHidden);
+}
+
+function setAllProcs(expand) {
+  PROCS.forEach(id => {
+    const wrap = document.getElementById('proc-'+id);
+    if (!wrap) return;
+    const hdr = wrap.previousElementSibling;
+    wrap.classList.toggle('hidden', !expand);
+    hdr.classList.toggle('collapsed', !expand);
+  });
+}
+
+// Abre un estándar descargándolo del bucket y convirtiéndolo a blob local
+// Esto evita el CSP sandbox que Supabase impone en *.supabase.co
+async function abrirEstandar(codigo, url, btn) {
+  // Si ya está en caché, reusar
+  if (blobCache[codigo]) {
+    window.open(blobCache[codigo], '_blank');
+    return;
+  }
+
+  const labelOriginal = btn.innerHTML;
+  btn.innerHTML = `<span class="std-code">${codigo}</span><span class="std-badge">Cargando...</span>`;
+
+  try {
+    const response = await fetch(url);
+    if (!response.ok) throw new Error('HTTP ' + response.status);
+    const html = await response.text();
+    const blob = new Blob([html], { type: 'text/html; charset=utf-8' });
+    const blobUrl = URL.createObjectURL(blob);
+    blobCache[codigo] = blobUrl;
+    window.open(blobUrl, '_blank');
+  } catch (err) {
+    console.error('Error al abrir estándar ' + codigo, err);
+    alert('No se pudo cargar el estándar ' + codigo + '. Verifica tu conexión.');
+  } finally {
+    btn.innerHTML = labelOriginal;
+  }
+}
+
+function renderEstandares(estandares) {
+  const mapa = {};
+  estandares.forEach(e => { mapa[e.codigo] = { url: e.html_content, version: e.version }; });
+
+  document.querySelectorAll('td.num').forEach(td => {
+    const codigo = td.textContent.trim();
+    if (!codigo || !codigo.includes('-')) return;
+    const entry = mapa[codigo];
+    if (entry) {
+      td.innerHTML = `
+        <a class="std-link std-disponible" href="javascript:void(0)" title="Abrir estándar ${codigo} v${entry.version}" data-codigo="${codigo}" data-url="${entry.url}">
+          <span class="std-code">${codigo}</span>
+          <span class="std-badge">▶ VER</span>
+        </a>`;
+      const link = td.querySelector('a');
+      link.addEventListener('click', () => abrirEstandar(codigo, entry.url, link));
+    } else {
+      td.innerHTML = `
+        <span class="std-link std-pendiente" title="Estándar aún no generado">
+          <span class="std-code">${codigo}</span>
+          <span class="std-badge">PENDIENTE</span>
+        </span>`;
+    }
+  });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  fetch(EDGE_URL)
+    .then(r => r.json())
+    .then(data => renderEstandares(data))
+    .catch(err => {
+      console.warn('No se pudo conectar a Supabase, los estándares se muestran como pendientes.', err);
+      document.querySelectorAll('td.num').forEach(td => {
+        const codigo = td.textContent.trim();
+        if (!codigo || !codigo.includes('-')) return;
+        td.innerHTML = `
+          <span class="std-link std-pendiente" title="Sin conexión">
+            <span class="std-code">${codigo}</span>
+            <span class="std-badge">PENDIENTE</span>
+          </span>`;
+      });
+    });
+});
+</script>
+</body>
+</html>
